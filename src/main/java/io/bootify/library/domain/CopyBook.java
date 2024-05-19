@@ -46,7 +46,7 @@ public class CopyBook {
     @Column
     private String cover;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 

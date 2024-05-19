@@ -46,7 +46,7 @@ public class Member {
     @Column(nullable = false)
     private LocalDateTime dateRegister;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_member_id")
     private TypeMember typeMember;
 

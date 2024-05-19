@@ -1,5 +1,6 @@
 package io.bootify.library.controller;
 
+import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Member;
 import io.bootify.library.domain.TypeLoaning;
@@ -101,6 +102,39 @@ public class LoaningController {
         loaningService.delete(idLoaning);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("loaning.delete.success"));
         return "redirect:/loanings";
+    }
+
+    @GetMapping("/create-form/{idCopyBook}")
+    public String create(@ModelAttribute("loaning") final LoaningDTO loaningDTO, @PathVariable("idCopyBook") int idCopyBook, Model model) {
+        CopyBook copyBook = copyBookRepository.findById(idCopyBook);
+        Book book = copyBook.getBook();
+        TypeLoaning[] typeLoanings = typeLoaningRepository.findAll().toArray(TypeLoaning[]::new);
+        model.addAttribute("book", book);
+        model.addAttribute("copyBook", copyBook);
+        model.addAttribute("loaningTypes", typeLoanings);
+
+        return "loaning/create";
+    }
+
+    @PostMapping("/create")
+    public String createLoan(@ModelAttribute LoaningDTO loaningDTO, RedirectAttributes redirectAttributes)
+    {
+
+        //print all loaningDTO attributes
+        System.out.println("Member : " + loaningDTO.getMember());
+        System.out.println("Loan Type : " + loaningDTO.getTypeLoaning());
+        System.out.println("Copy Book : " + loaningDTO.getCopyBook());
+        try {
+            int id = loaningService.createLoaning(loaningDTO);
+            return "redirect:/loanings";
+
+        } catch (Exception e) {
+            //Set error message in a model
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/loanings/create-form/" + loaningDTO.getCopyBook();
+        }
+
+
     }
 
 }

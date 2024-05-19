@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CopyBookRepository extends JpaRepository<CopyBook, Integer> {
 
     CopyBook findFirstByBook(Book book);
-
+    CopyBook findById(int idCopyBook);
 }
