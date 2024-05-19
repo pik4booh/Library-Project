@@ -9,4 +9,6 @@ public interface LibrarianRepository extends JpaRepository<Librarian, Integer> {
 
     Librarian findFirstByRole(Role role);
 
+    Librarian findByNameAndPwd(String name, String pwd);
+
 }
