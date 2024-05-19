@@ -72,6 +72,7 @@ public class MemberService {
         memberDTO.setAddress(member.getAddress());
         memberDTO.setDateRegister(member.getDateRegister());
         memberDTO.setTypeMember(member.getTypeMember() == null ? null : member.getTypeMember().getIdTypeMember());
+        memberDTO.setTypeMemberName(member.getTypeMember() == null ? null : member.getTypeMember().getName());
         return memberDTO;
     }
 

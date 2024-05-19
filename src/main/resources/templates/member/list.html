@@ -30,12 +30,12 @@
                     <tbody>
                         <tr th:each="member : ${members}">
                             <td>[[${member.idMember}]]</td>
-                            <td>[[${member.name}]]</td>
+                            <td><a th:href="@{/members/copyBooks/{idMember}(idMember=${member.idMember})}">[[${member.name}]]</a></td>
                             <td>[[${member.birth}]]</td>
                             <td>[[${member.identifiant}]]</td>
                             <td>[[${member.address}]]</td>
                             <td>[[${member.dateRegister}]]</td>
-                            <td>[[${member.typeMember}]]</td>
+                            <td>[[${member.typeMemberName}]]</td>
                             <td>
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/members/edit/{idMember}(idMember=${member.idMember})}" class="btn btn-sm btn-secondary">[[#{member.list.edit}]]</a>

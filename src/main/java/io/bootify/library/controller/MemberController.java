@@ -1,7 +1,9 @@
 package io.bootify.library.controller;
 
+import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.TypeMember;
 import io.bootify.library.model.MemberDTO;
+import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.TypeMemberRepository;
 import io.bootify.library.service.MemberService;
 import io.bootify.library.util.CustomCollectors;
@@ -92,6 +94,17 @@ public class MemberController {
             redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("member.delete.success"));
         }
         return "redirect:/members";
+    }
+
+    @GetMapping("/copyBooks/{idMember}")
+    public String copyBooks(@PathVariable(name = "idMember") final int idMember, final Model model) {
+        model.addAttribute("member", memberService.get(idMember));
+        try {
+            //Get all Loaned Books not returned by this member
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return "member/copyBooks";
     }
 
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{dashboard}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loaning Records</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .table-container {
+            margin-top: 20px;
+        }
+
+        .form-control:focus {
+            border-color: #495057;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+        .btn-action {
+            background-color: #17a2b8;
+            border: none;
+        }
+
+        .btn-action:hover {
+            background-color: #138496;
+        }
+
+        .page-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container">
+        <div class="page-title">
+            <h2>John Doe's Loan Book List</h2>
+        </div>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">CopyBook ID</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Loaning Date</th>
+                        <th scope="col">Expected Return Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Effective Java</td>
+                        <td>2024-05-01 10:00</td>
+                        <td>2024-05-15 10:00</td>
+                        <td><button class="btn btn-action">Return</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Clean Code</td>
+                        <td>2024-05-02 14:00</td>
+                        <td>2024-05-16 14:00</td>
+                        <td><button class="btn btn-action">Return</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

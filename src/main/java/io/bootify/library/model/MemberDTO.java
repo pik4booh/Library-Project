@@ -28,6 +28,8 @@ public class MemberDTO {
 
     private Integer typeMember;
 
+    private String typeMemberName;
+
     public Integer getIdMember() {
         return idMember;
     }
@@ -82,6 +84,14 @@ public class MemberDTO {
 
     public void setTypeMember(final Integer typeMember) {
         this.typeMember = typeMember;
+    }
+
+    public String getTypeMemberName() {
+        return typeMemberName;
+    }
+
+    public void setTypeMemberName(final String typeMemberName) {
+        this.typeMemberName = typeMemberName;
     }
 
 }
