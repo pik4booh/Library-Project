@@ -26,7 +26,8 @@ public class BookDTO {
     @NotNull
     private LocalDateTime releaseDate;
 
-    private Integer author;
+    @Size(max = 255)
+    private String author;
 
     public Integer getIdBook() {
         return idBook;
@@ -76,11 +77,11 @@ public class BookDTO {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(final Integer author) {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 

@@ -19,7 +19,7 @@
                 <div th:replace="~{fragments/forms::inputRow(object='book', field='collection')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='book', field='coteNumber', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='book', field='releaseDate', required=true, inputClass='js-datetimepicker')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='author', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='book', field='author')}" />
                 <input type="submit" th:value="#{book.add.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>

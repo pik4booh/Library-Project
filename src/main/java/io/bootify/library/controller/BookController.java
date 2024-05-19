@@ -1,14 +1,10 @@
 package io.bootify.library.controller;
 
-import io.bootify.library.domain.Author;
 import io.bootify.library.model.BookDTO;
-import io.bootify.library.repos.AuthorRepository;
 import io.bootify.library.service.BookService;
-import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,18 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BookController {
 
     private final BookService bookService;
-    private final AuthorRepository authorRepository;
 
-    public BookController(final BookService bookService, final AuthorRepository authorRepository) {
+    public BookController(final BookService bookService) {
         this.bookService = bookService;
-        this.authorRepository = authorRepository;
-    }
-
-    @ModelAttribute
-    public void prepareContext(final Model model) {
-        model.addAttribute("authorValues", authorRepository.findAll(Sort.by("idAuthor"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(Author::getIdAuthor, Author::getName)));
     }
 
     @GetMapping

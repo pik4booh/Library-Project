@@ -1,13 +1,11 @@
 package io.bootify.library.service;
 
-import io.bootify.library.domain.Author;
 import io.bootify.library.domain.Book;
 import io.bootify.library.domain.BookCategory;
 import io.bootify.library.domain.BookMember;
 import io.bootify.library.domain.BookTheme;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.model.BookDTO;
-import io.bootify.library.repos.AuthorRepository;
 import io.bootify.library.repos.BookCategoryRepository;
 import io.bootify.library.repos.BookMemberRepository;
 import io.bootify.library.repos.BookRepository;
@@ -24,19 +22,17 @@ import org.springframework.stereotype.Service;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
     private final BookThemeRepository bookThemeRepository;
     private final CopyBookRepository copyBookRepository;
     private final BookMemberRepository bookMemberRepository;
     private final BookCategoryRepository bookCategoryRepository;
 
-    public BookService(final BookRepository bookRepository, final AuthorRepository authorRepository,
+    public BookService(final BookRepository bookRepository,
             final BookThemeRepository bookThemeRepository,
             final CopyBookRepository copyBookRepository,
             final BookMemberRepository bookMemberRepository,
             final BookCategoryRepository bookCategoryRepository) {
         this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
         this.bookThemeRepository = bookThemeRepository;
         this.copyBookRepository = copyBookRepository;
         this.bookMemberRepository = bookMemberRepository;
@@ -80,7 +76,7 @@ public class BookService {
         bookDTO.setCollection(book.getCollection());
         bookDTO.setCoteNumber(book.getCoteNumber());
         bookDTO.setReleaseDate(book.getReleaseDate());
-        bookDTO.setAuthor(book.getAuthor() == null ? null : book.getAuthor().getIdAuthor());
+        bookDTO.setAuthor(book.getAuthor());
         return bookDTO;
     }
 
@@ -90,9 +86,7 @@ public class BookService {
         book.setCollection(bookDTO.getCollection());
         book.setCoteNumber(bookDTO.getCoteNumber());
         book.setReleaseDate(bookDTO.getReleaseDate());
-        final Author author = bookDTO.getAuthor() == null ? null : authorRepository.findById(bookDTO.getAuthor())
-                .orElseThrow(() -> new NotFoundException("author not found"));
-        book.setAuthor(author);
+        book.setAuthor(bookDTO.getAuthor());
         return book;
     }
 
