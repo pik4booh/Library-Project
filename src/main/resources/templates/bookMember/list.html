@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{bookMember.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{bookMember.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/bookMembers/add}" class="btn btn-primary ms-2">[[#{bookMember.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${bookMembers.empty}">[[#{bookMember.list.empty}]]</div>
+            <div th:if="${!bookMembers.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{bookMember.idBookMember.label}]]</th>
+                            <th scope="col">[[#{bookMember.onTheSpot.label}]]</th>
+                            <th scope="col">[[#{bookMember.takeAway.label}]]</th>
+                            <th scope="col">[[#{bookMember.book.label}]]</th>
+                            <th scope="col">[[#{bookMember.typeMember.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="bookMember : ${bookMembers}">
+                            <td>[[${bookMember.idBookMember}]]</td>
+                            <td>[[${bookMember.onTheSpot}]]</td>
+                            <td>[[${bookMember.takeAway}]]</td>
+                            <td>[[${bookMember.book}]]</td>
+                            <td>[[${bookMember.typeMember}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/bookMembers/edit/{idBookMember}(idBookMember=${bookMember.idBookMember})}" class="btn btn-sm btn-secondary">[[#{bookMember.list.edit}]]</a>
+                                    <form th:action="@{/bookMembers/delete/{idBookMember}(idBookMember=${bookMember.idBookMember})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{bookMember.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

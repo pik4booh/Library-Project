@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{loaning.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{loaning.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/loanings/add}" class="btn btn-primary ms-2">[[#{loaning.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${loanings.empty}">[[#{loaning.list.empty}]]</div>
+            <div th:if="${!loanings.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{loaning.idLoaning.label}]]</th>
+                            <th scope="col">[[#{loaning.loaningDate.label}]]</th>
+                            <th scope="col">[[#{loaning.expectedReturnDate.label}]]</th>
+                            <th scope="col">[[#{loaning.member.label}]]</th>
+                            <th scope="col">[[#{loaning.copyBook.label}]]</th>
+                            <th scope="col">[[#{loaning.typeLoaning.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="loaning : ${loanings}">
+                            <td>[[${loaning.idLoaning}]]</td>
+                            <td>[[${loaning.loaningDate}]]</td>
+                            <td>[[${loaning.expectedReturnDate}]]</td>
+                            <td>[[${loaning.member}]]</td>
+                            <td>[[${loaning.copyBook}]]</td>
+                            <td>[[${loaning.typeLoaning}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/loanings/edit/{idLoaning}(idLoaning=${loaning.idLoaning})}" class="btn btn-sm btn-secondary">[[#{loaning.list.edit}]]</a>
+                                    <form th:action="@{/loanings/delete/{idLoaning}(idLoaning=${loaning.idLoaning})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{loaning.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

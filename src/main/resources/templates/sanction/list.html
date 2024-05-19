@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{sanction.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{sanction.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/sanctions/add}" class="btn btn-primary ms-2">[[#{sanction.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${sanctions.empty}">[[#{sanction.list.empty}]]</div>
+            <div th:if="${!sanctions.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{sanction.idSanction.label}]]</th>
+                            <th scope="col">[[#{sanction.dateBegin.label}]]</th>
+                            <th scope="col">[[#{sanction.dateEnd.label}]]</th>
+                            <th scope="col">[[#{sanction.member.label}]]</th>
+                            <th scope="col">[[#{sanction.copyBook.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sanction : ${sanctions}">
+                            <td>[[${sanction.idSanction}]]</td>
+                            <td>[[${sanction.dateBegin}]]</td>
+                            <td>[[${sanction.dateEnd}]]</td>
+                            <td>[[${sanction.member}]]</td>
+                            <td>[[${sanction.copyBook}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/sanctions/edit/{idSanction}(idSanction=${sanction.idSanction})}" class="btn btn-sm btn-secondary">[[#{sanction.list.edit}]]</a>
+                                    <form th:action="@{/sanctions/delete/{idSanction}(idSanction=${sanction.idSanction})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{sanction.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
