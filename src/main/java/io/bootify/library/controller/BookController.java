@@ -10,8 +10,8 @@ import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -48,13 +49,32 @@ public class BookController {
         return "book/list";
     }
 
-    // @GetMapping
-    // public String search(final Model model) {
+    @GetMapping
+    public String searchBooks(
+        @RequestParam(name = "title", required = false) String title,
+        @RequestParam(name = "author", required = false) String author,
+        @RequestParam(name = "releaseDate1", required = false) String releaseDate1,
+        @RequestParam(name = "releaseDate2", required = false) String releaseDate2,
+        @RequestParam(name = "categories", required = false) List<Long> categoryIds,
+        Model model) {
 
-    //     model.addAttribute("books", bookService.findAll());
-    //     model.addAttribute("categories", categoryService.findAll());
-    //     return "book/list";
-    // }
+        System.out.println("title"+title);
+        System.out.println("author"+author);
+        System.out.println("releaseDate1"+releaseDate1);
+        System.out.println("author"+author);
+
+        for (Long long1 : categoryIds) {
+            System.out.println(long1);
+        }
+
+        LocalDate date1 = (releaseDate1 != null && !releaseDate1.isEmpty()) ? LocalDate.parse(releaseDate1) : null;
+        LocalDate date2 = (releaseDate2 != null && !releaseDate2.isEmpty()) ? LocalDate.parse(releaseDate2) : null;
+
+        List<Book> books = bookService.searchBooks(title, author, date1, date2, categoryIds);
+        model.addAttribute("books", books);
+
+        return "book/list";
+    }
 
     @GetMapping("/listCopyBooks/{idBook}")
     public String listCopyBooks(@PathVariable(name = "idBook") final Integer idBook, final Model model) {

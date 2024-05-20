@@ -48,8 +48,7 @@ public class Loaning {
     @JoinColumn(name = "type_loaning_id")
     private TypeLoaning typeLoaning;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "return_loaning_id", unique = true)
+    @OneToOne(mappedBy = "loaning", fetch = FetchType.LAZY)
     private ReturnLoaning returnLoaning;
 
     public Integer getIdLoaning() {

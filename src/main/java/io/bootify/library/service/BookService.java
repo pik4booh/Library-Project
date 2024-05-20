@@ -13,7 +13,11 @@ import io.bootify.library.repos.BookThemeRepository;
 import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.util.NotFoundException;
 import io.bootify.library.util.ReferencedWarning;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +48,13 @@ public class BookService {
         return books.stream()
                 .map(book -> mapToDTO(book, new BookDTO()))
                 .toList();
+    }
+
+    public List<Book> searchBooks(String title, String author, LocalDate releaseDate1, LocalDate releaseDate2, List<Long> categoryIds) {
+        // Implement the search logic
+        return bookRepository.findBooksByCriteria(title, author, releaseDate1, releaseDate2, categoryIds)
+                             .stream()
+                             .collect(Collectors.toList());
     }
 
     public BookDTO get(final Integer idBook) {

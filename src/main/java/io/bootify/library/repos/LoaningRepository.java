@@ -20,7 +20,6 @@ public interface LoaningRepository extends JpaRepository<Loaning, Integer> {
     Loaning findFirstByCopyBook(CopyBook copyBook);
 
     Loaning findFirstByTypeLoaning(TypeLoaning typeLoaning);
-    Loaning findFirstByReturnLoaning(ReturnLoaning returnLoaning);
 
     @Query(value = "SELECT lo.* FROM public.loaning lo " +
     "LEFT JOIN public.return_loaning rl ON lo.id_loaning = rl.loaning_id " +

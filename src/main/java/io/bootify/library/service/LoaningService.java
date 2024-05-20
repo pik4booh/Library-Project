@@ -31,15 +31,18 @@ public class LoaningService {
     private final CopyBookRepository copyBookRepository;
     private final TypeLoaningRepository typeLoaningRepository;
     private final BookMemberRepository bookMemberRepository;
+    private final ReturnLoaningRepository returnLoaningRepository;
 
     public LoaningService(final LoaningRepository loaningRepository,
             final MemberRepository memberRepository, final CopyBookRepository copyBookRepository,
-            final TypeLoaningRepository typeLoaningRepository, final BookMemberRepository bookMemberRepository) {
+            final TypeLoaningRepository typeLoaningRepository, final BookMemberRepository bookMemberRepository,
+            final ReturnLoaningRepository returnLoaningRepository) {
         this.loaningRepository = loaningRepository;
         this.memberRepository = memberRepository;
         this.copyBookRepository = copyBookRepository;
         this.typeLoaningRepository = typeLoaningRepository;
         this.bookMemberRepository = bookMemberRepository;
+        this.returnLoaningRepository = returnLoaningRepository;
     }
 
     public List<LoaningDTO> findAll() {
