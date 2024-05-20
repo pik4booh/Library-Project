@@ -11,9 +11,13 @@ import io.bootify.library.repos.BookMemberRepository;
 import io.bootify.library.repos.BookRepository;
 import io.bootify.library.repos.BookThemeRepository;
 import io.bootify.library.repos.CopyBookRepository;
+import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.util.NotFoundException;
 import io.bootify.library.util.ReferencedWarning;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -119,6 +123,24 @@ public class BookService {
             return referencedWarning;
         }
         return null;
+    }
+
+    /* Get Most N Borrowed books */
+
+    @Autowired
+    private LoaningRepository loaningRepository;
+    
+    public List<Book> getNMostBorrowedBooks(int n) {
+        long bookCount = bookRepository.count();
+        if (n > bookCount) {
+            throw new IllegalArgumentException("n is higher than the total number of books in the database");
+        }
+
+        List<Object[]> results = loaningRepository.findMostBorrowedBooks();
+        return results.stream()
+                .map(result -> (Book) result[0])
+                .limit(n)
+                .collect(Collectors.toList());
     }
 
 }
