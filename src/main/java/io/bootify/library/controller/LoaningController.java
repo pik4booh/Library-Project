@@ -9,6 +9,7 @@ import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.MemberRepository;
 import io.bootify.library.repos.TypeLoaningRepository;
 import io.bootify.library.service.LoaningService;
+import io.bootify.library.service.SanctionService;
 import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
@@ -29,14 +30,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LoaningController {
 
     private final LoaningService loaningService;
+    private final SanctionService sanctionService;
     private final MemberRepository memberRepository;
     private final CopyBookRepository copyBookRepository;
     private final TypeLoaningRepository typeLoaningRepository;
 
     public LoaningController(final LoaningService loaningService,
+            final SanctionService sanctionService,
             final MemberRepository memberRepository, final CopyBookRepository copyBookRepository,
             final TypeLoaningRepository typeLoaningRepository) {
         this.loaningService = loaningService;
+        this.sanctionService = sanctionService;
         this.memberRepository = memberRepository;
         this.copyBookRepository = copyBookRepository;
         this.typeLoaningRepository = typeLoaningRepository;
@@ -125,6 +129,8 @@ public class LoaningController {
         System.out.println("Loan Type : " + loaningDTO.getTypeLoaning());
         System.out.println("Copy Book : " + loaningDTO.getCopyBook());
         try {
+            //check if user in the request has active sanction
+            sanctionService.checkMemberSanction(loaningDTO.getMember());
             int id = loaningService.createLoaning(loaningDTO);
             return "redirect:/loanings";
 
