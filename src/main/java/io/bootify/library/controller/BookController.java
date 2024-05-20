@@ -11,6 +11,7 @@ import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -55,22 +56,51 @@ public class BookController {
         @RequestParam(name = "author", required = false) String author,
         @RequestParam(name = "releaseDate1", required = false) String releaseDate1,
         @RequestParam(name = "releaseDate2", required = false) String releaseDate2,
-        @RequestParam(name = "categories", required = false) List<Long> categoryIds,
+        @RequestParam(name = "categories", required = false) List<String> categoryIds,
         Model model) {
 
+        System.out.println("hehe");
         System.out.println("title"+title);
         System.out.println("author"+author);
         System.out.println("releaseDate1"+releaseDate1);
         System.out.println("releaseDate2"+releaseDate2);
+        
+        String listCat = "";
+        
+        if(categoryIds != null && categoryIds.size() > 0){
+            for (String long1 : categoryIds) {
+                if(long1 == categoryIds.get(categoryIds.size()-1)){
+                    listCat = listCat + long1;
+                    break;
+                }
+                listCat = listCat + long1 + ", ";
+            }
+        }
+        System.out.println("categories"+listCat);
 
-        for (Long long1 : categoryIds) {
-            System.out.println(long1);
+        
+        LocalDate date1 = null;
+        LocalDate date2 = null;
+
+        LocalDate minReleaseDate = LocalDate.parse("1996-01-23");
+
+        // Check if releaseDate1 is not empty, then parse it to LocalDate
+        if (releaseDate1 == null) {
+            date1 = minReleaseDate;
         }
 
-        LocalDate date1 = (releaseDate1 != null && !releaseDate1.isEmpty()) ? LocalDate.parse(releaseDate1) : null;
-        LocalDate date2 = (releaseDate2 != null && !releaseDate2.isEmpty()) ? LocalDate.parse(releaseDate2) : null;
+        // Check if releaseDate2 is not empty, then parse it to LocalDate
+        if (releaseDate2 == null) {
+            date2 = LocalDate.now();
+        }
 
-        List<Book> books = bookService.searchBooks(title);
+        // LocalDate date1 = (releaseDate1 != null && !releaseDate1.isEmpty()) ? LocalDate.parse(releaseDate1) : minReleaseDate;
+        // LocalDate date2 = (releaseDate2 != null && !releaseDate2.isEmpty()) ? LocalDate.parse(releaseDate2) : LocalDate.now();
+
+        System.out.println("date1"+date1);
+        System.out.println("date2"+date2);
+
+        List<Book> books = bookRepository.findBooksByCriteria(title,author,date1,date2,listCat);
         model.addAttribute("books", books);
 
         return "book/bookSearch";

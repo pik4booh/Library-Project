@@ -14,9 +14,7 @@ import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.util.NotFoundException;
 import io.bootify.library.util.ReferencedWarning;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -35,7 +33,8 @@ public class BookService {
             final BookThemeRepository bookThemeRepository,
             final CopyBookRepository copyBookRepository,
             final BookMemberRepository bookMemberRepository,
-            final BookCategoryRepository bookCategoryRepository) {
+            final BookCategoryRepository bookCategoryRepository
+            ) {
         this.bookRepository = bookRepository;
         this.bookThemeRepository = bookThemeRepository;
         this.copyBookRepository = copyBookRepository;
@@ -48,13 +47,6 @@ public class BookService {
         return books.stream()
                 .map(book -> mapToDTO(book, new BookDTO()))
                 .toList();
-    }
-
-    public List<Book> searchBooks(String title) {
-        // Implement the search logic
-        return bookRepository.findBooksByCriteria(title)
-                             .stream()
-                             .collect(Collectors.toList());
     }
 
     public BookDTO get(final Integer idBook) {
