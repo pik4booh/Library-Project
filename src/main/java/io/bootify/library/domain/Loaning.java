@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
 
@@ -46,6 +47,10 @@ public class Loaning {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_loaning_id")
     private TypeLoaning typeLoaning;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "return_loaning_id", unique = true)
+    private ReturnLoaning returnLoaning;
 
     public Integer getIdLoaning() {
         return idLoaning;
@@ -93,6 +98,14 @@ public class Loaning {
 
     public void setTypeLoaning(final TypeLoaning typeLoaning) {
         this.typeLoaning = typeLoaning;
+    }
+
+    public ReturnLoaning getReturnLoaning() {
+        return returnLoaning;
+    }
+
+    public void setReturnLoaning(final ReturnLoaning returnLoaning) {
+        this.returnLoaning = returnLoaning;
     }
 
 }
