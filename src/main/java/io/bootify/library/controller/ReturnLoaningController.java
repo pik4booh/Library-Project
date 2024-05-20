@@ -89,4 +89,21 @@ public class ReturnLoaningController {
         return "redirect:/returnLoanings";
     }
 
+    @GetMapping("/return/{idLoaning}/{idMember}")
+    public String returnLoan(@PathVariable(name = "idLoaning") final int idLoaning, @PathVariable(name = "idMember") final int idMember, RedirectAttributes redirectAttributes)
+    {
+        try {
+            int sanctionStatus = returnLoaningService.returnLoan(idLoaning);
+            if (sanctionStatus == 1){
+                redirectAttributes.addFlashAttribute("Information", "Sanction has been applied to the member due to late return of the book. And the book has been returned successfully");
+            }else{
+                redirectAttributes.addFlashAttribute("Information", "Book has been returned successfully");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/members/copyBooks/" + idMember;
+        }
+        return "redirect:/members/copyBooks/" + idMember;
+    }
+
 }

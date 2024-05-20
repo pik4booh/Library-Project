@@ -1,15 +1,20 @@
 package io.bootify.library.controller;
 
 import io.bootify.library.domain.CopyBook;
+import io.bootify.library.domain.Loaning;
 import io.bootify.library.domain.TypeMember;
 import io.bootify.library.model.MemberDTO;
 import io.bootify.library.repos.CopyBookRepository;
+import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.repos.TypeMemberRepository;
 import io.bootify.library.service.MemberService;
 import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
+
+import java.util.List;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +33,14 @@ public class MemberController {
 
     private final MemberService memberService;
     private final TypeMemberRepository typeMemberRepository;
+    private final LoaningRepository loaningRepository;
 
     public MemberController(final MemberService memberService,
-            final TypeMemberRepository typeMemberRepository) {
+            final TypeMemberRepository typeMemberRepository,
+            final LoaningRepository loaningRepository) {
         this.memberService = memberService;
         this.typeMemberRepository = typeMemberRepository;
+        this.loaningRepository = loaningRepository;
     }
 
     @ModelAttribute
@@ -100,9 +108,12 @@ public class MemberController {
     public String copyBooks(@PathVariable(name = "idMember") final int idMember, final Model model) {
         model.addAttribute("member", memberService.get(idMember));
         try {
-            //Get all Loaned Books not returned by this member
+            List<Loaning> activeLoanings = loaningRepository.findActiveLoaningByMember(idMember);
+            model.addAttribute("activeLoanings", activeLoanings);
+            model.addAttribute("member", memberService.get(idMember));
+            return "member/copyBooks";
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Error: " + e.getMessage());
         }
         return "member/copyBooks";
     }
