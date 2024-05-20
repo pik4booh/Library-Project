@@ -20,8 +20,6 @@ public class LoaningDTO {
 
     private Integer typeLoaning;
 
-    private Integer returnLoaning;
-
     public Integer getIdLoaning() {
         return idLoaning;
     }
@@ -68,14 +66,6 @@ public class LoaningDTO {
 
     public void setTypeLoaning(final Integer typeLoaning) {
         this.typeLoaning = typeLoaning;
-    }
-
-    public Integer getReturnLoaning() {
-        return returnLoaning;
-    }
-
-    public void setReturnLoaning(final Integer returnLoaning) {
-        this.returnLoaning = returnLoaning;
     }
 
 }

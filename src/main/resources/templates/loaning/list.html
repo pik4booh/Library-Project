@@ -23,7 +23,6 @@
                             <th scope="col">[[#{loaning.member.label}]]</th>
                             <th scope="col">[[#{loaning.copyBook.label}]]</th>
                             <th scope="col">[[#{loaning.typeLoaning.label}]]</th>
-                            <th scope="col">[[#{loaning.returnLoaning.label}]]</th>
                             <th><!-- --></th>
                         </tr>
                     </thead>
@@ -35,7 +34,6 @@
                             <td>[[${loaning.member}]]</td>
                             <td>[[${loaning.copyBook}]]</td>
                             <td>[[${loaning.typeLoaning}]]</td>
-                            <td>[[${loaning.returnLoaning}]]</td>
                             <td>
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/loanings/edit/{idLoaning}(idLoaning=${loaning.idLoaning})}" class="btn btn-sm btn-secondary">[[#{loaning.list.edit}]]</a>

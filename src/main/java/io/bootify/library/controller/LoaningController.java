@@ -1,17 +1,15 @@
 package io.bootify.library.controller;
 
-import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Member;
-import io.bootify.library.domain.ReturnLoaning;
 import io.bootify.library.domain.TypeLoaning;
 import io.bootify.library.model.LoaningDTO;
 import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.MemberRepository;
-import io.bootify.library.repos.ReturnLoaningRepository;
 import io.bootify.library.repos.TypeLoaningRepository;
 import io.bootify.library.service.LoaningService;
 import io.bootify.library.util.CustomCollectors;
+import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
@@ -34,17 +32,14 @@ public class LoaningController {
     private final MemberRepository memberRepository;
     private final CopyBookRepository copyBookRepository;
     private final TypeLoaningRepository typeLoaningRepository;
-    private final ReturnLoaningRepository returnLoaningRepository;
 
     public LoaningController(final LoaningService loaningService,
             final MemberRepository memberRepository, final CopyBookRepository copyBookRepository,
-            final TypeLoaningRepository typeLoaningRepository,
-            final ReturnLoaningRepository returnLoaningRepository) {
+            final TypeLoaningRepository typeLoaningRepository) {
         this.loaningService = loaningService;
         this.memberRepository = memberRepository;
         this.copyBookRepository = copyBookRepository;
         this.typeLoaningRepository = typeLoaningRepository;
-        this.returnLoaningRepository = returnLoaningRepository;
     }
 
     @ModelAttribute
@@ -58,9 +53,6 @@ public class LoaningController {
         model.addAttribute("typeLoaningValues", typeLoaningRepository.findAll(Sort.by("idTypeLoaning"))
                 .stream()
                 .collect(CustomCollectors.toSortedMap(TypeLoaning::getIdTypeLoaning, TypeLoaning::getName)));
-        model.addAttribute("returnLoaningValues", returnLoaningRepository.findAll(Sort.by("idReturnLoaning"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(ReturnLoaning::getIdReturnLoaning, ReturnLoaning::getReturnDate)));
     }
 
     @GetMapping
@@ -107,42 +99,15 @@ public class LoaningController {
     @PostMapping("/delete/{idLoaning}")
     public String delete(@PathVariable(name = "idLoaning") final Integer idLoaning,
             final RedirectAttributes redirectAttributes) {
-        loaningService.delete(idLoaning);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("loaning.delete.success"));
-        return "redirect:/loanings";
-    }
-
-    @GetMapping("/create-form/{idCopyBook}")
-    public String create(@ModelAttribute("loaning") final LoaningDTO loaningDTO, @PathVariable("idCopyBook") int idCopyBook, Model model) {
-        CopyBook copyBook = copyBookRepository.findById(idCopyBook);
-        Book book = copyBook.getBook();
-        TypeLoaning[] typeLoanings = typeLoaningRepository.findAll().toArray(TypeLoaning[]::new);
-        model.addAttribute("book", book);
-        model.addAttribute("copyBook", copyBook);
-        model.addAttribute("loaningTypes", typeLoanings);
-
-        return "loaning/create";
-    }
-
-    @PostMapping("/create")
-    public String createLoan(@ModelAttribute LoaningDTO loaningDTO, RedirectAttributes redirectAttributes)
-    {
-
-        //print all loaningDTO attributes
-        System.out.println("Member : " + loaningDTO.getMember());
-        System.out.println("Loan Type : " + loaningDTO.getTypeLoaning());
-        System.out.println("Copy Book : " + loaningDTO.getCopyBook());
-        try {
-            int id = loaningService.createLoaning(loaningDTO);
-            return "redirect:/loanings";
-
-        } catch (Exception e) {
-            //Set error message in a model
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/loanings/create-form/" + loaningDTO.getCopyBook();
+        final ReferencedWarning referencedWarning = loaningService.getReferencedWarning(idLoaning);
+        if (referencedWarning != null) {
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
+                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+        } else {
+            loaningService.delete(idLoaning);
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("loaning.delete.success"));
         }
-
-
+        return "redirect:/loanings";
     }
 
 }

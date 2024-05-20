@@ -1,24 +1,17 @@
 package io.bootify.library.service;
 
-import io.bootify.library.domain.Book;
-import io.bootify.library.domain.BookMember;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Loaning;
 import io.bootify.library.domain.Member;
 import io.bootify.library.domain.TypeLoaning;
-import io.bootify.library.domain.TypeMember;
 import io.bootify.library.model.LoaningDTO;
-import io.bootify.library.repos.BookMemberRepository;
 import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.repos.MemberRepository;
 import io.bootify.library.repos.TypeLoaningRepository;
 import io.bootify.library.util.NotFoundException;
-
-import java.time.LocalDateTime;
+import io.bootify.library.util.ReferencedWarning;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +23,16 @@ public class LoaningService {
     private final MemberRepository memberRepository;
     private final CopyBookRepository copyBookRepository;
     private final TypeLoaningRepository typeLoaningRepository;
-    private final BookMemberRepository bookMemberRepository;
     private final ReturnLoaningRepository returnLoaningRepository;
 
     public LoaningService(final LoaningRepository loaningRepository,
             final MemberRepository memberRepository, final CopyBookRepository copyBookRepository,
-            final TypeLoaningRepository typeLoaningRepository, final BookMemberRepository bookMemberRepository,
+            final TypeLoaningRepository typeLoaningRepository,
             final ReturnLoaningRepository returnLoaningRepository) {
         this.loaningRepository = loaningRepository;
         this.memberRepository = memberRepository;
         this.copyBookRepository = copyBookRepository;
         this.typeLoaningRepository = typeLoaningRepository;
-        this.bookMemberRepository = bookMemberRepository;
         this.returnLoaningRepository = returnLoaningRepository;
     }
 
@@ -100,54 +91,17 @@ public class LoaningService {
         return loaning;
     }
 
-    public int createLoaning(LoaningDTO loaningDTO) throws Exception {
-      
-            Optional<Member> optionalMember  = memberRepository.findById(loaningDTO.getMember());
-            Member member = optionalMember.orElseThrow(() -> new NotFoundException("Member not found"));
-            checkLoaningPermission(loaningDTO, member);
-            int daysToAdd = member.getTypeMember().getNbLoaningDays();
-            LocalDateTime expectedReturnDate =  loaningDTO.getLoaningDate().plusDays(daysToAdd);
-            System.out.println("Expected return date : " + expectedReturnDate);
-            loaningDTO.setExpectedReturnDate(expectedReturnDate);
-            int id = create(loaningDTO);
-            return 0;
-    }
-
-    public void checkLoaningPermission(LoaningDTO loaningDTO, Member member) throws Exception
-    {
-        //Get the member type of the actual member who made a request
-        TypeMember typeMember = member.getTypeMember();
-        //Get the copy book instance by id and throws exception if not found
-        CopyBook copyBook = copyBookRepository.findById(loaningDTO.getCopyBook()).orElseThrow(() -> new NotFoundException("CopyBook not found"));
-        //Get book associated with the copy book to get the specific permission for this book
-        Book book = copyBook.getBook();
-
-        //find book member by book and member and throws exception if not found
-        BookMember bookMember = bookMemberRepository.findFirstByBookAndTypeMember(book, typeMember);
-        if(bookMember == null)
-        {
-            throw new Exception("This book has no permission setted for this type of member");
+    public ReferencedWarning getReferencedWarning(final Integer idLoaning) {
+        final ReferencedWarning referencedWarning = new ReferencedWarning();
+        final Loaning loaning = loaningRepository.findById(idLoaning)
+                .orElseThrow(NotFoundException::new);
+        final ReturnLoaning loaningReturnLoaning = returnLoaningRepository.findFirstByLoaning(loaning);
+        if (loaningReturnLoaning != null) {
+            referencedWarning.setKey("loaning.returnLoaning.loaning.referenced");
+            referencedWarning.addParam(loaningReturnLoaning.getIdReturnLoaning());
+            return referencedWarning;
         }
-        //Get the loaning type requested by the member
-        TypeLoaning typeLoaning = loaningDTO.getTypeLoaning() == null ? null : typeLoaningRepository.findById(loaningDTO.getTypeLoaning())
-                .orElseThrow(() -> new NotFoundException("typeLoaning not found"));
-
-        //Check if the member has the permission to loan this book on the spot or take away
-        if(typeLoaning.getName().contains("Spot"))
-        {
-            int bookSpotPermission = bookMember.getOnTheSpot();
-            if(bookSpotPermission == 0)
-            {
-                throw new Exception("On the spot permission is not allowed for this member for this book");
-            }
-        }else{
-            int bookPermission = bookMember.getTakeAway();
-            if(bookPermission == 0)
-            {
-                throw new Exception("Take away permission is not allowed for this member for this book");
-            }
-        }
-        System.out.println("Check permission successfull");
+        return null;
     }
 
 }

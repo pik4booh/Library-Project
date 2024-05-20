@@ -40,7 +40,7 @@ public class Loaning {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "copy_book_id")
     private CopyBook copyBook;
 
