@@ -70,7 +70,7 @@ public class BookController {
         LocalDate date1 = (releaseDate1 != null && !releaseDate1.isEmpty()) ? LocalDate.parse(releaseDate1) : null;
         LocalDate date2 = (releaseDate2 != null && !releaseDate2.isEmpty()) ? LocalDate.parse(releaseDate2) : null;
 
-        List<Book> books = bookService.searchBooks(title, author, date1, date2, categoryIds);
+        List<Book> books = bookService.searchBooks(title);
         model.addAttribute("books", books);
 
         return "book/bookSearch";

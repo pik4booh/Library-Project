@@ -11,24 +11,13 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    @Query(
-       // "SELECT b FROM Book b JOIN b.categories c WHERE " +
-       //     "(:title IS NULL OR b.title LIKE %:title%) AND " +
-       //     "(:author IS NULL OR b.author LIKE %:author%) AND " +
-       //     "(:releaseDate1 IS NULL OR b.releaseDate >= :releaseDate1) AND " +
-       //     "(:releaseDate2 IS NULL OR b.releaseDate <= :releaseDate2) AND " +
-       //     "(COALESCE(:categoryIds) IS NULL OR c.id IN :categoryIds)"
-           
-           "SELECT b.* " +
-              "FROM public.book AS b " +
-              "JOIN public.book_category AS bc ON b.id_book = bc.book_id " +
-              "JOIN public.category AS c ON c.id_category = bc.category_id " +
-              "WHERE title LIKE %:title% ")
-              
-    List<Book> findBooksByCriteria(
-            @Param("title") String title,
-            @Param("author") String author,
-            @Param("releaseDate1") LocalDate releaseDate1,
-            @Param("releaseDate2") LocalDate releaseDate2,
-            @Param("categoryIds") List<Long> categoryIds);
+    @Query("SELECT b.* " +
+              "FROM public.book AS b "+
+              "JOIN public.book_category AS bc ON b.id_book = bc.book_id "+
+              "JOIN public.category AS c ON c.id_category = bc.category_id "+
+              "WHERE title LIKE %:title% "
+              )
+       List<Book> findBooksByCriteria(
+            @Param("title") String title
+            );
 }

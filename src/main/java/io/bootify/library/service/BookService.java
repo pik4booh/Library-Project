@@ -50,9 +50,9 @@ public class BookService {
                 .toList();
     }
 
-    public List<Book> searchBooks(String title, String author, LocalDate releaseDate1, LocalDate releaseDate2, List<Long> categoryIds) {
+    public List<Book> searchBooks(String title) {
         // Implement the search logic
-        return bookRepository.findBooksByCriteria(title, author, releaseDate1, releaseDate2, categoryIds)
+        return bookRepository.findBooksByCriteria(title)
                              .stream()
                              .collect(Collectors.toList());
     }
