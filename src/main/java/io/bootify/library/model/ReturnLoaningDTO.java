@@ -1,31 +1,41 @@
 package io.bootify.library.model;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 
 public class ReturnLoaningDTO {
 
-    private Long idReturnLoaning;
+    private Integer idReturnLoaning;
 
     @NotNull
-    @Size(max = 255)
-    private String returnDate;
+    private LocalDateTime returnDate;
 
-    public Long getIdReturnLoaning() {
+    @ReturnLoaningLoaningUnique
+    private Integer loaning;
+
+    public Integer getIdReturnLoaning() {
         return idReturnLoaning;
     }
 
-    public void setIdReturnLoaning(final Long idReturnLoaning) {
+    public void setIdReturnLoaning(final Integer idReturnLoaning) {
         this.idReturnLoaning = idReturnLoaning;
     }
 
-    public String getReturnDate() {
+    public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(final String returnDate) {
+    public void setReturnDate(final LocalDateTime returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public Integer getLoaning() {
+        return loaning;
+    }
+
+    public void setLoaning(final Integer loaning) {
+        this.loaning = loaning;
     }
 
 }

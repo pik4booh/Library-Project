@@ -6,7 +6,6 @@ import io.bootify.library.model.ReturnLoaningDTO;
 import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.repos.ReturnLoaningRepository;
 import io.bootify.library.util.NotFoundException;
-import io.bootify.library.util.ReferencedWarning;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -31,26 +30,26 @@ public class ReturnLoaningService {
                 .toList();
     }
 
-    public ReturnLoaningDTO get(final Long idReturnLoaning) {
+    public ReturnLoaningDTO get(final Integer idReturnLoaning) {
         return returnLoaningRepository.findById(idReturnLoaning)
                 .map(returnLoaning -> mapToDTO(returnLoaning, new ReturnLoaningDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final ReturnLoaningDTO returnLoaningDTO) {
+    public Integer create(final ReturnLoaningDTO returnLoaningDTO) {
         final ReturnLoaning returnLoaning = new ReturnLoaning();
         mapToEntity(returnLoaningDTO, returnLoaning);
         return returnLoaningRepository.save(returnLoaning).getIdReturnLoaning();
     }
 
-    public void update(final Long idReturnLoaning, final ReturnLoaningDTO returnLoaningDTO) {
+    public void update(final Integer idReturnLoaning, final ReturnLoaningDTO returnLoaningDTO) {
         final ReturnLoaning returnLoaning = returnLoaningRepository.findById(idReturnLoaning)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(returnLoaningDTO, returnLoaning);
         returnLoaningRepository.save(returnLoaning);
     }
 
-    public void delete(final Long idReturnLoaning) {
+    public void delete(final Integer idReturnLoaning) {
         returnLoaningRepository.deleteById(idReturnLoaning);
     }
 
@@ -58,26 +57,21 @@ public class ReturnLoaningService {
             final ReturnLoaningDTO returnLoaningDTO) {
         returnLoaningDTO.setIdReturnLoaning(returnLoaning.getIdReturnLoaning());
         returnLoaningDTO.setReturnDate(returnLoaning.getReturnDate());
+        returnLoaningDTO.setLoaning(returnLoaning.getLoaning() == null ? null : returnLoaning.getLoaning().getIdLoaning());
         return returnLoaningDTO;
     }
 
     private ReturnLoaning mapToEntity(final ReturnLoaningDTO returnLoaningDTO,
             final ReturnLoaning returnLoaning) {
         returnLoaning.setReturnDate(returnLoaningDTO.getReturnDate());
+        final Loaning loaning = returnLoaningDTO.getLoaning() == null ? null : loaningRepository.findById(returnLoaningDTO.getLoaning())
+                .orElseThrow(() -> new NotFoundException("loaning not found"));
+        returnLoaning.setLoaning(loaning);
         return returnLoaning;
     }
 
-    public ReferencedWarning getReferencedWarning(final Long idReturnLoaning) {
-        final ReferencedWarning referencedWarning = new ReferencedWarning();
-        final ReturnLoaning returnLoaning = returnLoaningRepository.findById(idReturnLoaning)
-                .orElseThrow(NotFoundException::new);
-        final Loaning returnLoaningLoaning = loaningRepository.findFirstByReturnLoaning(returnLoaning);
-        if (returnLoaningLoaning != null) {
-            referencedWarning.setKey("returnLoaning.loaning.returnLoaning.referenced");
-            referencedWarning.addParam(returnLoaningLoaning.getIdLoaning());
-            return referencedWarning;
-        }
-        return null;
+    public boolean loaningExists(final Integer idLoaning) {
+        return returnLoaningRepository.existsByLoaningIdLoaning(idLoaning);
     }
 
 }

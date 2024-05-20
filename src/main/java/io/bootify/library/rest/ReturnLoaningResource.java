@@ -2,8 +2,6 @@ package io.bootify.library.rest;
 
 import io.bootify.library.model.ReturnLoaningDTO;
 import io.bootify.library.service.ReturnLoaningService;
-import io.bootify.library.util.ReferencedException;
-import io.bootify.library.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -37,21 +35,21 @@ public class ReturnLoaningResource {
 
     @GetMapping("/{idReturnLoaning}")
     public ResponseEntity<ReturnLoaningDTO> getReturnLoaning(
-            @PathVariable(name = "idReturnLoaning") final Long idReturnLoaning) {
+            @PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning) {
         return ResponseEntity.ok(returnLoaningService.get(idReturnLoaning));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createReturnLoaning(
+    public ResponseEntity<Integer> createReturnLoaning(
             @RequestBody @Valid final ReturnLoaningDTO returnLoaningDTO) {
-        final Long createdIdReturnLoaning = returnLoaningService.create(returnLoaningDTO);
+        final Integer createdIdReturnLoaning = returnLoaningService.create(returnLoaningDTO);
         return new ResponseEntity<>(createdIdReturnLoaning, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idReturnLoaning}")
-    public ResponseEntity<Long> updateReturnLoaning(
-            @PathVariable(name = "idReturnLoaning") final Long idReturnLoaning,
+    public ResponseEntity<Integer> updateReturnLoaning(
+            @PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning,
             @RequestBody @Valid final ReturnLoaningDTO returnLoaningDTO) {
         returnLoaningService.update(idReturnLoaning, returnLoaningDTO);
         return ResponseEntity.ok(idReturnLoaning);
@@ -60,11 +58,7 @@ public class ReturnLoaningResource {
     @DeleteMapping("/{idReturnLoaning}")
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteReturnLoaning(
-            @PathVariable(name = "idReturnLoaning") final Long idReturnLoaning) {
-        final ReferencedWarning referencedWarning = returnLoaningService.getReferencedWarning(idReturnLoaning);
-        if (referencedWarning != null) {
-            throw new ReferencedException(referencedWarning);
-        }
+            @PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning) {
         returnLoaningService.delete(idReturnLoaning);
         return ResponseEntity.noContent().build();
     }

@@ -19,6 +19,7 @@
                         <tr>
                             <th scope="col">[[#{returnLoaning.idReturnLoaning.label}]]</th>
                             <th scope="col">[[#{returnLoaning.returnDate.label}]]</th>
+                            <th scope="col">[[#{returnLoaning.loaning.label}]]</th>
                             <th><!-- --></th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                         <tr th:each="returnLoaning : ${returnLoanings}">
                             <td>[[${returnLoaning.idReturnLoaning}]]</td>
                             <td>[[${returnLoaning.returnDate}]]</td>
+                            <td>[[${returnLoaning.loaning}]]</td>
                             <td>
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/returnLoanings/edit/{idReturnLoaning}(idReturnLoaning=${returnLoaning.idReturnLoaning})}" class="btn btn-sm btn-secondary">[[#{returnLoaning.list.edit}]]</a>

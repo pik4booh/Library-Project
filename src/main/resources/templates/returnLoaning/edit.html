@@ -15,7 +15,8 @@
             <div th:replace="~{fragments/forms::globalErrors('returnLoaning')}" />
             <form th:action="${requestUri}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='returnLoaning', field='idReturnLoaning', disabled=true, type='number')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='returnLoaning', field='returnDate', required=true)}" />
+                <div th:replace="~{fragments/forms::inputRow(object='returnLoaning', field='returnDate', required=true, inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='returnLoaning', field='loaning', type='select')}" />
                 <input type="submit" th:value="#{returnLoaning.edit.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>

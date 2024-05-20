@@ -1,10 +1,13 @@
 package io.bootify.library.controller;
 
+import io.bootify.library.domain.Loaning;
 import io.bootify.library.model.ReturnLoaningDTO;
+import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.service.ReturnLoaningService;
-import io.bootify.library.util.ReferencedWarning;
+import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +24,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ReturnLoaningController {
 
     private final ReturnLoaningService returnLoaningService;
+    private final LoaningRepository loaningRepository;
 
-    public ReturnLoaningController(final ReturnLoaningService returnLoaningService) {
+    public ReturnLoaningController(final ReturnLoaningService returnLoaningService,
+            final LoaningRepository loaningRepository) {
         this.returnLoaningService = returnLoaningService;
+        this.loaningRepository = loaningRepository;
+    }
+
+    @ModelAttribute
+    public void prepareContext(final Model model) {
+        model.addAttribute("loaningValues", loaningRepository.findAll(Sort.by("idLoaning"))
+                .stream()
+                .collect(CustomCollectors.toSortedMap(Loaning::getIdLoaning, Loaning::getIdLoaning)));
     }
 
     @GetMapping
@@ -50,14 +63,14 @@ public class ReturnLoaningController {
     }
 
     @GetMapping("/edit/{idReturnLoaning}")
-    public String edit(@PathVariable(name = "idReturnLoaning") final Long idReturnLoaning,
+    public String edit(@PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning,
             final Model model) {
         model.addAttribute("returnLoaning", returnLoaningService.get(idReturnLoaning));
         return "returnLoaning/edit";
     }
 
     @PostMapping("/edit/{idReturnLoaning}")
-    public String edit(@PathVariable(name = "idReturnLoaning") final Long idReturnLoaning,
+    public String edit(@PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning,
             @ModelAttribute("returnLoaning") @Valid final ReturnLoaningDTO returnLoaningDTO,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -69,16 +82,10 @@ public class ReturnLoaningController {
     }
 
     @PostMapping("/delete/{idReturnLoaning}")
-    public String delete(@PathVariable(name = "idReturnLoaning") final Long idReturnLoaning,
+    public String delete(@PathVariable(name = "idReturnLoaning") final Integer idReturnLoaning,
             final RedirectAttributes redirectAttributes) {
-        final ReferencedWarning referencedWarning = returnLoaningService.getReferencedWarning(idReturnLoaning);
-        if (referencedWarning != null) {
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
-                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
-        } else {
-            returnLoaningService.delete(idReturnLoaning);
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("returnLoaning.delete.success"));
-        }
+        returnLoaningService.delete(idReturnLoaning);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("returnLoaning.delete.success"));
         return "redirect:/returnLoanings";
     }
 

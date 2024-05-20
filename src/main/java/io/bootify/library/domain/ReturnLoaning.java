@@ -6,8 +6,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -25,30 +27,28 @@ public class ReturnLoaning {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Long idReturnLoaning;
+    private Integer idReturnLoaning;
 
     @Column(nullable = false)
-    private String returnDate;
+    private LocalDateTime returnDate;
 
-    @OneToOne(
-            mappedBy = "returnLoaning",
-            fetch = FetchType.LAZY
-    )
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loaning_id", unique = true)
     private Loaning loaning;
 
-    public Long getIdReturnLoaning() {
+    public Integer getIdReturnLoaning() {
         return idReturnLoaning;
     }
 
-    public void setIdReturnLoaning(final Long idReturnLoaning) {
+    public void setIdReturnLoaning(final Integer idReturnLoaning) {
         this.idReturnLoaning = idReturnLoaning;
     }
 
-    public String getReturnDate() {
+    public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(final String returnDate) {
+    public void setReturnDate(final LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
