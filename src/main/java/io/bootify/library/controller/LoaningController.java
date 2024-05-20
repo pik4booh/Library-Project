@@ -3,10 +3,12 @@ package io.bootify.library.controller;
 import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Member;
+import io.bootify.library.domain.ReturnLoaning;
 import io.bootify.library.domain.TypeLoaning;
 import io.bootify.library.model.LoaningDTO;
 import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.MemberRepository;
+import io.bootify.library.repos.ReturnLoaningRepository;
 import io.bootify.library.repos.TypeLoaningRepository;
 import io.bootify.library.service.LoaningService;
 import io.bootify.library.util.CustomCollectors;
@@ -32,14 +34,17 @@ public class LoaningController {
     private final MemberRepository memberRepository;
     private final CopyBookRepository copyBookRepository;
     private final TypeLoaningRepository typeLoaningRepository;
+    private final ReturnLoaningRepository returnLoaningRepository;
 
     public LoaningController(final LoaningService loaningService,
             final MemberRepository memberRepository, final CopyBookRepository copyBookRepository,
-            final TypeLoaningRepository typeLoaningRepository) {
+            final TypeLoaningRepository typeLoaningRepository,
+            final ReturnLoaningRepository returnLoaningRepository) {
         this.loaningService = loaningService;
         this.memberRepository = memberRepository;
         this.copyBookRepository = copyBookRepository;
         this.typeLoaningRepository = typeLoaningRepository;
+        this.returnLoaningRepository = returnLoaningRepository;
     }
 
     @ModelAttribute
@@ -53,6 +58,9 @@ public class LoaningController {
         model.addAttribute("typeLoaningValues", typeLoaningRepository.findAll(Sort.by("idTypeLoaning"))
                 .stream()
                 .collect(CustomCollectors.toSortedMap(TypeLoaning::getIdTypeLoaning, TypeLoaning::getName)));
+        model.addAttribute("returnLoaningValues", returnLoaningRepository.findAll(Sort.by("idReturnLoaning"))
+                .stream()
+                .collect(CustomCollectors.toSortedMap(ReturnLoaning::getIdReturnLoaning, ReturnLoaning::getReturnDate)));
     }
 
     @GetMapping

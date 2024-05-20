@@ -27,4 +27,8 @@ public interface LoaningRepository extends JpaRepository<Loaning, Integer> {
     "WHERE lo.member_id = :idMember AND rl.loaning_id IS NULL", nativeQuery = true)
     List<Loaning> findActiveLoaningByMember(@Param("idMember") int idMember);
 
+    Loaning findFirstByReturnLoaning(ReturnLoaning returnLoaning);
+
+    boolean existsByReturnLoaningIdReturnLoaning(Long idReturnLoaning);
+
 }
