@@ -4,6 +4,7 @@ import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.model.BookDTO;
 import io.bootify.library.repos.BookRepository;
+import io.bootify.library.repos.CustomBookRepository;
 import io.bootify.library.service.BookService;
 import io.bootify.library.service.CategoryService;
 import io.bootify.library.util.ReferencedWarning;
@@ -11,7 +12,6 @@ import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,11 +36,13 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
     private final BookRepository bookRepository;
+    private final CustomBookRepository customBookRepository;
 
-    public BookController(final BookService bookService, final CategoryService categoryService, final BookRepository bookRepository) {
+    public BookController(final BookService bookService, final CategoryService categoryService, final BookRepository bookRepository, final CustomBookRepository customBookRepository) {
         this.bookService = bookService;
         this.categoryService = categoryService;
         this.bookRepository = bookRepository;
+        this.customBookRepository = customBookRepository;
     }
 
     @GetMapping
@@ -56,7 +58,7 @@ public class BookController {
         @RequestParam(name = "author", required = false) String author,
         @RequestParam(name = "releaseDate1", required = false) String releaseDate1,
         @RequestParam(name = "releaseDate2", required = false) String releaseDate2,
-        @RequestParam(name = "categories", required = false) List<String> categoryIds,
+        @RequestParam(name = "categories", required = false) List<String> categories,
         Model model) {
 
         System.out.println("hehe");
@@ -64,43 +66,32 @@ public class BookController {
         System.out.println("author"+author);
         System.out.println("releaseDate1"+releaseDate1);
         System.out.println("releaseDate2"+releaseDate2);
-        
-        String listCat = "";
-        
-        if(categoryIds != null && categoryIds.size() > 0){
-            for (String long1 : categoryIds) {
-                if(long1 == categoryIds.get(categoryIds.size()-1)){
-                    listCat = listCat + long1;
-                    break;
-                }
-                listCat = listCat + long1 + ", ";
-            }
-        }
-        System.out.println("categories"+listCat);
 
-        
+        if(title == null && author == null && releaseDate1 == null && releaseDate2 == null && categories == null)
+        {
+            return "redirect:/books";
+        }
+
         LocalDate date1 = null;
         LocalDate date2 = null;
 
-        LocalDate minReleaseDate = LocalDate.parse("1996-01-23");
-
         // Check if releaseDate1 is not empty, then parse it to LocalDate
-        if (releaseDate1 == null) {
-            date1 = minReleaseDate;
+        if (releaseDate1 != null) {
+            date1 = LocalDate.parse(releaseDate1);
         }
 
         // Check if releaseDate2 is not empty, then parse it to LocalDate
-        if (releaseDate2 == null) {
-            date2 = LocalDate.now();
+        if (releaseDate2 != null) {
+            date2 = LocalDate.parse(releaseDate2);
         }
-
-        // LocalDate date1 = (releaseDate1 != null && !releaseDate1.isEmpty()) ? LocalDate.parse(releaseDate1) : minReleaseDate;
-        // LocalDate date2 = (releaseDate2 != null && !releaseDate2.isEmpty()) ? LocalDate.parse(releaseDate2) : LocalDate.now();
 
         System.out.println("date1"+date1);
         System.out.println("date2"+date2);
 
-        List<Book> books = bookRepository.findBooksByCriteria(title,author,date1,date2,listCat);
+        List<Book> books = customBookRepository .findBooksByCriteria(title,author,date1,date2,categories);
+        for (Book b : books) {
+            System.out.println("title"+b.getTitle());
+        }
         model.addAttribute("books", books);
 
         return "book/bookSearch";
