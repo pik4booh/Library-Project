@@ -2,6 +2,8 @@ package io.bootify.library.rest;
 
 import io.bootify.library.model.LoaningDTO;
 import io.bootify.library.service.LoaningService;
+import io.bootify.library.util.ReferencedException;
+import io.bootify.library.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -58,6 +60,10 @@ public class LoaningResource {
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteLoaning(
             @PathVariable(name = "idLoaning") final Integer idLoaning) {
+        final ReferencedWarning referencedWarning = loaningService.getReferencedWarning(idLoaning);
+        if (referencedWarning != null) {
+            throw new ReferencedException(referencedWarning);
+        }
         loaningService.delete(idLoaning);
         return ResponseEntity.noContent().build();
     }

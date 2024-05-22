@@ -39,12 +39,32 @@
             padding: 20px;
             flex-grow: 1;
         }
+        .navbar-fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+        }
+        body {
+            padding-top: 56px; /* Adjust this value if your navbar height is different */
+        }
+        .card-vertical {
+            width: 18rem; /* Adjust the width to make it a vertical rectangle */
+            height: 28rem; /* Adjust the height to make it a vertical rectangle */
+        }
+
+        .card-vertical .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Dashboard</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +93,6 @@
     <div class="main-content">
         <!-- Main content area is empty -->
         <div layout:fragment="content" />
-
     </div>
 
     <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>

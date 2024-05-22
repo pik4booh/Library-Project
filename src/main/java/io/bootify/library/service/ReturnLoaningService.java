@@ -1,22 +1,14 @@
 package io.bootify.library.service;
 
 import io.bootify.library.domain.Loaning;
-import io.bootify.library.domain.Member;
 import io.bootify.library.domain.ReturnLoaning;
-import io.bootify.library.domain.Sanction;
 import io.bootify.library.model.ReturnLoaningDTO;
 import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.repos.ReturnLoaningRepository;
-import io.bootify.library.repos.SanctionRepository;
 import io.bootify.library.util.NotFoundException;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -24,15 +16,11 @@ public class ReturnLoaningService {
 
     private final ReturnLoaningRepository returnLoaningRepository;
     private final LoaningRepository loaningRepository;
-    private final SanctionRepository sanctionRepository;
-
 
     public ReturnLoaningService(final ReturnLoaningRepository returnLoaningRepository,
-            final LoaningRepository loaningRepository,
-            final SanctionRepository sanctionRepository) {
+            final LoaningRepository loaningRepository) {
         this.returnLoaningRepository = returnLoaningRepository;
         this.loaningRepository = loaningRepository;
-        this.sanctionRepository = sanctionRepository;
     }
 
     public List<ReturnLoaningDTO> findAll() {
@@ -84,42 +72,6 @@ public class ReturnLoaningService {
 
     public boolean loaningExists(final Integer idLoaning) {
         return returnLoaningRepository.existsByLoaningIdLoaning(idLoaning);
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public int returnLoan(int idLoaning) throws Exception{
-        Loaning loaning = loaningRepository.findById(idLoaning).orElseThrow(NotFoundException::new);
-        Member member = loaning.getMember();
-        boolean isSanctioned = applySanction(loaning, member);
-        LocalDateTime currentDate = LocalDateTime.now();
-        ReturnLoaning returnLoaning = new ReturnLoaning();
-        returnLoaning.setReturnDate(currentDate);
-        returnLoaning.setLoaning(loaning);
-        returnLoaningRepository.save(returnLoaning);
-
-        if (isSanctioned){
-            return 1;
-        }
-        return 0;
-
-    }
-
-    public boolean applySanction(Loaning loan, Member member) throws Exception{
-        LocalDateTime currentDate = LocalDateTime.now();
-        if (loan.getExpectedReturnDate().isBefore(currentDate)){
-            long numberDaysOfDelay = currentDate.getDayOfYear() - loan.getExpectedReturnDate().getDayOfYear();
-            long totalSanctionDays = numberDaysOfDelay * member.getTypeMember().getCoeffSanction();
-            LocalDateTime sanctionDateEnd = loan.getExpectedReturnDate().plusDays(totalSanctionDays);
-
-            Sanction sanction = new Sanction();
-            sanction.setMember(member);
-            sanction.setDateBegin(currentDate);
-            sanction.setDateEnd(sanctionDateEnd);
-            sanction.setCopyBook(loan.getCopyBook());
-            sanctionRepository.save(sanction);
-            return true;   
-        }
-        return false;
     }
 
 }

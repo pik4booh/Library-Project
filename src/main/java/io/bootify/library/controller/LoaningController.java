@@ -1,6 +1,5 @@
 package io.bootify.library.controller;
 
-import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Member;
 import io.bootify.library.domain.TypeLoaning;
@@ -11,6 +10,7 @@ import io.bootify.library.repos.TypeLoaningRepository;
 import io.bootify.library.service.LoaningService;
 import io.bootify.library.service.SanctionService;
 import io.bootify.library.util.CustomCollectors;
+import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
@@ -103,8 +103,14 @@ public class LoaningController {
     @PostMapping("/delete/{idLoaning}")
     public String delete(@PathVariable(name = "idLoaning") final Integer idLoaning,
             final RedirectAttributes redirectAttributes) {
-        loaningService.delete(idLoaning);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("loaning.delete.success"));
+        final ReferencedWarning referencedWarning = loaningService.getReferencedWarning(idLoaning);
+        if (referencedWarning != null) {
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
+                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+        } else {
+            loaningService.delete(idLoaning);
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("loaning.delete.success"));
+        }
         return "redirect:/loanings";
     }
 

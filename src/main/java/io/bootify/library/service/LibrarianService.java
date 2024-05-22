@@ -70,12 +70,4 @@ public class LibrarianService {
         return librarian;
     }
 
-    public Librarian login(final LibrarianDTO librarianDTO) {
-        Librarian librarian = librarianRepository.findByNameAndPwd(librarianDTO.getName(), librarianDTO.getPwd());  
-        if (librarian == null) {
-            throw new NotFoundException("Invalid credentials");
-        }
-        return librarian;
-    }
-
 }

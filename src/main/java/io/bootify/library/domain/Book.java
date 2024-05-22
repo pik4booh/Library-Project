@@ -2,6 +2,7 @@ package io.bootify.library.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -49,7 +50,7 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private Set<BookTheme> bookThemes;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private Set<CopyBook> copyBooks;
 
     @OneToMany(mappedBy = "book")

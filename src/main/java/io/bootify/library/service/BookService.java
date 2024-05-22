@@ -14,6 +14,7 @@ import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.util.NotFoundException;
 import io.bootify.library.util.ReferencedWarning;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,8 @@ public class BookService {
             final BookThemeRepository bookThemeRepository,
             final CopyBookRepository copyBookRepository,
             final BookMemberRepository bookMemberRepository,
-            final BookCategoryRepository bookCategoryRepository) {
+            final BookCategoryRepository bookCategoryRepository
+            ) {
         this.bookRepository = bookRepository;
         this.bookThemeRepository = bookThemeRepository;
         this.copyBookRepository = copyBookRepository;
