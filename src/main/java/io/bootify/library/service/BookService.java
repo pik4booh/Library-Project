@@ -125,22 +125,4 @@ public class BookService {
         return null;
     }
 
-    /* Get Most N Borrowed books */
-
-    @Autowired
-    private LoaningRepository loaningRepository;
-    
-    public List<Book> getNMostBorrowedBooks(int n) {
-        long bookCount = bookRepository.count();
-        if (n > bookCount) {
-            throw new IllegalArgumentException("n is higher than the total number of books in the database");
-        }
-
-        List<Object[]> results = loaningRepository.findMostBorrowedBooks();
-        return results.stream()
-                .map(result -> (Book) result[0])
-                .limit(n)
-                .collect(Collectors.toList());
-    }
-
 }
