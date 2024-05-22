@@ -2,12 +2,6 @@ package io.bootify.library.repos;
 
 import io.bootify.library.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,9 +12,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
@@ -28,11 +19,6 @@ public class CustomBookRepositoryImpl implements CustomBookRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final BookRepository bookRepository;
-
-    public CustomBookRepositoryImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 
     @Override
     public List<Book> findBooksByCriteria(String title, String author, LocalDate releaseDate1, LocalDate releaseDate2, List<String> categories) {
