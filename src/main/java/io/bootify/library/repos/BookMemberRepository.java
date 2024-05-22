@@ -12,4 +12,6 @@ public interface BookMemberRepository extends JpaRepository<BookMember, Integer>
 
     BookMember findFirstByTypeMember(TypeMember typeMember);
 
+    BookMember findFirstByBookAndTypeMember(Book book, TypeMember member);
+
 }
