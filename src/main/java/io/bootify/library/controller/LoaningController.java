@@ -1,5 +1,6 @@
 package io.bootify.library.controller;
 
+import io.bootify.library.domain.Book;
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Member;
 import io.bootify.library.domain.TypeLoaning;
