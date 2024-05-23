@@ -29,7 +29,7 @@ public class MemberDTO {
     private String address;
 
     @NotNull
-    private String dateRegister;
+    private LocalDateTime dateRegister;
 
     private Integer typeMember;
 
@@ -76,15 +76,13 @@ public class MemberDTO {
     }
 
     public LocalDateTime getDateRegister() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.FRENCH);
 
-        return LocalDateTime.parse(this.dateRegister, formatter);
+        return this.dateRegister;
     }
 
     public void setDateRegister(final LocalDateTime dateRegister) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
-        String formatedDateTime = dateRegister.format(formatter);
-        this.dateRegister = formatedDateTime;
+      
+        this.dateRegister = dateRegister;
     }
 
     public Integer getTypeMember() {
