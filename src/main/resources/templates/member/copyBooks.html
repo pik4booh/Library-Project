@@ -47,6 +47,22 @@
         <div class="page-title">
             <h2 th:text="${member.name} + ' \'s active loan list'"></h2>
         </div>
+
+        <div class="member-details">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Member Details</h5>
+                    <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
+                    <p><strong>Address:</strong> <span th:text="${member.address}"></span></p>
+                    <p><strong>Registered Date:</strong> <span th:text="${member.dateRegister}"> </span></p>
+                    <p><strong>Member Type:</strong> <span th:text="${member.typeMemberName}"></span></p>
+                    <p><strong>Sanction Status:</strong>  <span th:text="${sanction_status}"
+                        th:classappend="${sanction_status != 'N/A'} ? 'text-danger' : ''">
+                  </span></p>
+                </div>
+            </div>
+        </div>
+        
         <div class="table-container">
 
             <div th:if="${error != null}" class="alert alert-danger">

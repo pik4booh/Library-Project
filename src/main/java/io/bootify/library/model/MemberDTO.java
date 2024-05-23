@@ -3,6 +3,11 @@ package io.bootify.library.model;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Locale;
 
 
 public class MemberDTO {
@@ -24,7 +29,7 @@ public class MemberDTO {
     private String address;
 
     @NotNull
-    private LocalDateTime dateRegister;
+    private String dateRegister;
 
     private Integer typeMember;
 
@@ -71,11 +76,15 @@ public class MemberDTO {
     }
 
     public LocalDateTime getDateRegister() {
-        return dateRegister;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.FRENCH);
+
+        return LocalDateTime.parse(this.dateRegister, formatter);
     }
 
     public void setDateRegister(final LocalDateTime dateRegister) {
-        this.dateRegister = dateRegister;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+        String formatedDateTime = dateRegister.format(formatter);
+        this.dateRegister = formatedDateTime;
     }
 
     public Integer getTypeMember() {

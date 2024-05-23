@@ -2,12 +2,14 @@ package io.bootify.library.controller;
 
 import io.bootify.library.domain.CopyBook;
 import io.bootify.library.domain.Loaning;
+import io.bootify.library.domain.Sanction;
 import io.bootify.library.domain.TypeMember;
 import io.bootify.library.model.MemberDTO;
 import io.bootify.library.repos.CopyBookRepository;
 import io.bootify.library.repos.LoaningRepository;
 import io.bootify.library.repos.TypeMemberRepository;
 import io.bootify.library.service.MemberService;
+import io.bootify.library.service.SanctionService;
 import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
@@ -32,12 +34,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MemberController {
 
     private final MemberService memberService;
+    private final SanctionService sanctionService;
     private final TypeMemberRepository typeMemberRepository;
     private final LoaningRepository loaningRepository;
 
     public MemberController(final MemberService memberService,
+            final SanctionService sanctionService,
             final TypeMemberRepository typeMemberRepository,
             final LoaningRepository loaningRepository) {
+        this.sanctionService = sanctionService;
         this.memberService = memberService;
         this.typeMemberRepository = typeMemberRepository;
         this.loaningRepository = loaningRepository;
@@ -110,7 +115,7 @@ public class MemberController {
         try {
             List<Loaning> activeLoanings = loaningRepository.findActiveLoaningByMember(idMember);
             model.addAttribute("activeLoanings", activeLoanings);
-            model.addAttribute("member", memberService.get(idMember));
+            model.addAttribute("sanction_status", sanctionService.sanctionStatus(idMember));
             return "member/copyBooks";
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

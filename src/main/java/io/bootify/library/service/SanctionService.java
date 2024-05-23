@@ -86,4 +86,13 @@ public class SanctionService {
         }
     }
 
+    public String sanctionStatus(int idMember){
+        Sanction sanction = sanctionRepository.findActiveSanctionByMemberId(idMember);
+        if(sanction != null){
+            return new String("This member has active sanction till " + sanction.getDateEnd() + " and can't loan books.");
+        }else{
+            return "N/A";
+        }
+    }
+
 }
