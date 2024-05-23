@@ -30,17 +30,20 @@ public class BookService {
     private final CopyBookRepository copyBookRepository;
     private final BookMemberRepository bookMemberRepository;
     private final BookCategoryRepository bookCategoryRepository;
+    private LoaningRepository loaningRepository;
 
     public BookService(final BookRepository bookRepository,
             final BookThemeRepository bookThemeRepository,
             final CopyBookRepository copyBookRepository,
             final BookMemberRepository bookMemberRepository,
-            final BookCategoryRepository bookCategoryRepository) {
+            final BookCategoryRepository bookCategoryRepository,
+            final LoaningRepository loaningRepository) {
         this.bookRepository = bookRepository;
         this.bookThemeRepository = bookThemeRepository;
         this.copyBookRepository = copyBookRepository;
         this.bookMemberRepository = bookMemberRepository;
         this.bookCategoryRepository = bookCategoryRepository;
+        this.loaningRepository = loaningRepository;
     }
 
     public List<BookDTO> findAll() {
@@ -123,6 +126,16 @@ public class BookService {
             return referencedWarning;
         }
         return null;
+    }
+
+    public List<Object[]> getNMostBorrowedBooks(int n) {
+        long bookCount = bookRepository.count();
+        if (n > bookCount) {
+            throw new IllegalArgumentException("n is higher than the total number of books in the database");
+        }
+
+        List<Object[]> results = loaningRepository.findMostBorrowedBooks();
+        return results;
     }
 
 }

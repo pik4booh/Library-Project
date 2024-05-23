@@ -27,4 +27,14 @@ public interface LoaningRepository extends JpaRepository<Loaning, Integer> {
     "WHERE lo.member_id = :idMember AND rl.loaning_id IS NULL", nativeQuery = true)
     List<Loaning> findActiveLoaningByMember(@Param("idMember") int idMember);
 
+    @Query(value = "SELECT t.borrowCount, b.title, b.author, b.summary "+
+    "FROM ( "+
+        "SELECT c.book_id, COUNT(l.id_loaning) AS borrowCount "+
+        "FROM Loaning l "+
+        "LEFT JOIN copy_book c ON l.copy_book_id = c.id_copy_book "+
+        "GROUP BY c.book_id "+
+    ") AS t "+
+    "JOIN book b ON t.book_id = b.id_book LIMIT(3) ", nativeQuery = true)
+    List<Object[]> findMostBorrowedBooks();
+
 }

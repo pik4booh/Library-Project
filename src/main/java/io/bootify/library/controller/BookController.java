@@ -49,6 +49,9 @@ public class BookController {
     public String list(final Model model) {
         model.addAttribute("books", bookService.findAll());
         model.addAttribute("categories", categoryService.findAll());
+
+        List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
+        model.addAttribute("mostBorrowedBooks",mostBorrowedBooks);
         return "book/list";
     }
 
