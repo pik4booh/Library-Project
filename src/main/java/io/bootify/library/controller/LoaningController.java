@@ -132,7 +132,7 @@ public class LoaningController {
             //check if user in the request has active sanction
             sanctionService.checkMemberSanction(loaningDTO.getMember());
             int id = loaningService.createLoaning(loaningDTO);
-            return "redirect:/loanings";
+            return "redirect:/members/copyBooks/"+loaningDTO.getMember();
 
         } catch (Exception e) {
             //Set error message in a model

@@ -40,7 +40,7 @@ public class AuthenticationController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/authentication";
         }
-        return "redirect:/dashboard";
+        return "redirect:/books";
     }
     
 }

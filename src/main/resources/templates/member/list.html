@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
+        layout:decorate="~{dashboard}">
     <head>
         <title>[[#{member.list.headline}]]</title>
     </head>
     <body>
         <div layout:fragment="content">
+            <div style="height:50px"></div>
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{member.list.headline}]]</h1>
                 <div>

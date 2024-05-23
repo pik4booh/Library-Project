@@ -6,6 +6,21 @@
     </head>
     <body>
         <div layout:fragment="content">
+            <div style="height:50px"></div>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 1</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Author 1</h6>
+                            <p class="card-text">
+                                Summary
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{copyBook.list.headline}]]</h1>
                 <div>
@@ -23,8 +38,8 @@
                             <th scope="col">[[#{copyBook.editDate.label}]]</th>
                             <th scope="col">[[#{copyBook.pageNumber.label}]]</th>
                             <th scope="col">[[#{copyBook.cover.label}]]</th>
-                            <th scope="col">[[#{copyBook.book.label}]]</th>
-                            <th><!-- --></th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,15 +50,12 @@
                             <td>[[${copyBook.editDate}]]</td>
                             <td>[[${copyBook.pageNumber}]]</td>
                             <td>[[${copyBook.cover}]]</td>
-                            <td>[[${copyBook.book}]]</td>
                             <td>
-                                <div class="float-end text-nowrap">
-                                    <a th:href="@{/copyBooks/edit/{idCopyBook}(idCopyBook=${copyBook.idCopyBook})}" class="btn btn-sm btn-secondary">[[#{copyBook.list.edit}]]</a>
-                                    <form th:action="@{/copyBooks/delete/{idCopyBook}(idCopyBook=${copyBook.idCopyBook})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{copyBook.list.delete}]]</button>
-                                    </form>
-                                </div>
+                                <span class="badge bg-success">Available</span>
+                                <span class="badge bg-danger">Not Available</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBook.idCopyBook})}" class="btn btn-sm btn-secondary">Loan</a>
                             </td>
                         </tr>
                     </tbody>
