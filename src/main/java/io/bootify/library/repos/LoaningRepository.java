@@ -34,7 +34,19 @@ public interface LoaningRepository extends JpaRepository<Loaning, Integer> {
         "LEFT JOIN copy_book c ON l.copy_book_id = c.id_copy_book "+
         "GROUP BY c.book_id "+
     ") AS t "+
-    "JOIN book b ON t.book_id = b.id_book LIMIT(3) ", nativeQuery = true)
-    List<Object[]> findMostBorrowedBooks();
+    "JOIN book b ON t.book_id = b.id_book LIMIT(:lim) ", nativeQuery = true)
+    List<Object[]> findMostBorrowedBooks(@Param("lim") int lim);
+
+    @Query(value = "SELECT c.*, " +
+    "CASE " +
+        "WHEN l.id_loaning IS NULL THEN 1 " +
+        "ELSE 0 " +
+    "END AS available " +
+    "FROM copy_book c " +
+    "LEFT JOIN loaning l ON c.id_copy_book = l.copy_book_id " +
+    "LEFT JOIN return_loaning rl ON l.id_loaning = rl.loaning_id " +
+    "WHERE rl.id_return_loaning IS NULL " +
+    "AND book_id= :idBook ", nativeQuery = true)
+    List<Object[]> checkCopyBookAvailability(@Param("idBook") int idBook);
 
 }

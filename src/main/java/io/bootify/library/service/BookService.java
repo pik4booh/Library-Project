@@ -134,7 +134,13 @@ public class BookService {
             throw new IllegalArgumentException("n is higher than the total number of books in the database");
         }
 
-        List<Object[]> results = loaningRepository.findMostBorrowedBooks();
+        List<Object[]> results = loaningRepository.findMostBorrowedBooks(n);
+        return results;
+    }
+
+    public List<Object[]> getAvailableCopyBooks(int idBook) {
+
+        List<Object[]> results = loaningRepository.checkCopyBookAvailability(idBook);
         return results;
     }
 

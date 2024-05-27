@@ -51,7 +51,7 @@ public class BookController {
         model.addAttribute("categories", categoryService.findAll());
 
         List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
-        model.addAttribute("mostBorrowedBooks",mostBorrowedBooks);
+        model.addAttribute("mostBorrowedBooks", mostBorrowedBooks);
         return "book/list";
     }
 
@@ -105,25 +105,26 @@ public class BookController {
         System.out.println("hehe");
         System.out.println("idBook: " + idBook);
 
-        Optional<Book> optionalBook = bookRepository.findById(idBook);
+        // Optional<Book> optionalBook = bookRepository.findById(idBook);
 
-        if (!optionalBook.isPresent()) {
-            System.out.println("Book not found with id: " + idBook);
-            model.addAttribute("error", "Book not found");
-            return "errorPage"; // Replace with your actual error page
-        }
+        // if (!optionalBook.isPresent()) {
+        //     System.out.println("Book not found with id: " + idBook);
+        //     model.addAttribute("error", "Book not found");
+        //     return "errorPage"; // Replace with your actual error page
+        // }
 
-        Book book = optionalBook.get();
-        System.out.println("book: " + book);
+        // Book book = optionalBook.get();
+        // System.out.println("book: " + book);
 
-        // Initialize the copyBooks collection within the Hibernate session
-        Hibernate.initialize(book.getCopyBooks());
+        // // Initialize the copyBooks collection within the Hibernate session
+        // Hibernate.initialize(book.getCopyBooks());
 
-        Set<CopyBook> copyBooks = book.getCopyBooks();
-        for (CopyBook copyBook : copyBooks) {
-            System.out.println("Isbn: " + copyBook.getIsbn());
-        }
+        // Set<CopyBook> copyBooks = book.getCopyBooks();
+        // for (CopyBook copyBook : copyBooks) {
+        //     System.out.println("Isbn: " + copyBook.getIsbn());
+        // }
 
+        List<Object[]> copyBooks = bookService.getAvailableCopyBooks(idBook);
         model.addAttribute("copyBooks", copyBooks);
         return "book/listCopyBooks";
     }
