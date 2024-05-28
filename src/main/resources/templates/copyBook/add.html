@@ -14,12 +14,17 @@
                 </div>
             </div>
             <div th:replace="~{fragments/forms::globalErrors('copyBook')}" />
-            <form th:action="${requestUri}" method="post">
+            <form th:action="${requestUri}" method="post" enctype="multipart/form-data">
                 <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='language')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='isbn', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='editDate', inputClass='js-datetimepicker')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='pageNumber', type='number')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='cover')}" />
+                <div class="row mb-3">
+                    <label for="cover" class="col-md-2 col-form-label">Cover Image</label>
+                    <div class="col-md-10">
+                        <input type="file" id="cover" name="coverFile" class="form-control"/>
+                    </div>
+                </div> 
                 <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='book', type='select')}" />
                 <input type="submit" th:value="#{copyBook.add.headline}" class="btn btn-primary mt-4" />
             </form>

@@ -4,6 +4,7 @@ import io.bootify.library.domain.Book;
 import io.bootify.library.model.CopyBookDTO;
 import io.bootify.library.repos.BookRepository;
 import io.bootify.library.service.CopyBookService;
+import io.bootify.library.service.FileStorageService;
 import io.bootify.library.util.CustomCollectors;
 import io.bootify.library.util.ReferencedWarning;
 import io.bootify.library.util.WebUtils;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -25,11 +28,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CopyBookController {
 
     private final CopyBookService copyBookService;
+    private final FileStorageService fileStorageService;
     private final BookRepository bookRepository;
 
     public CopyBookController(final CopyBookService copyBookService,
+            final FileStorageService fileStorageService,
             final BookRepository bookRepository) {
         this.copyBookService = copyBookService;
+        this.fileStorageService = fileStorageService;
         this.bookRepository = bookRepository;
     }
 
@@ -52,12 +58,19 @@ public class CopyBookController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("copyBook") @Valid final CopyBookDTO copyBookDTO,
+    public String add(@ModelAttribute("copyBook") @Valid final CopyBookDTO copyBookDTO, @RequestParam("coverFile") MultipartFile coverFile,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "copyBook/add";
         }
-        copyBookService.create(copyBookDTO);
+        try{
+            String cover = fileStorageService.store(coverFile);
+            copyBookDTO.setCover(cover);
+            copyBookService.create(copyBookDTO);
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("copyBook.create.error"));
+        }
+        // copyBookService.create(copyBookDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("copyBook.create.success"));
         return "redirect:/copyBooks";
     }

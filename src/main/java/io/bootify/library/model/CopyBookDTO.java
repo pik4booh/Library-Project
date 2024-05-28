@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 public class CopyBookDTO {
 
@@ -24,6 +26,8 @@ public class CopyBookDTO {
     private String cover;
 
     private Integer book;
+
+    //private MultipartFile coverFile;
 
     public Integer getIdCopyBook() {
         return idCopyBook;
@@ -80,5 +84,15 @@ public class CopyBookDTO {
     public void setBook(final Integer book) {
         this.book = book;
     }
+
+    // public MultipartFile getCoverFile() {
+    //     return coverFile;
+    // }
+
+    // public void setCoverFile(MultipartFile coverFile) {
+    //     this.coverFile = coverFile;
+    // }
+
+    
 
 }

@@ -45,7 +45,11 @@
                     <tbody>
                         <tr th:each="copyBookData : ${copyBooks}">
                             <td th:text="${copyBookData[0]}"></td>
-                            <td th:text="${copyBookData[1]}"></td>
+                            <td>
+                                <img th:src="@{'/images/upload/' + ${copyBookData[1]}}"
+                                     alt="Cover Image"
+                                     style="max-width: 100px; max-height: 100px;"/>
+                            </td>
                             <td th:text="${copyBookData[2]}"></td>
                             <td th:text="${copyBookData[3]}"></td>
                             <td th:text="${copyBookData[4]}"></td>
