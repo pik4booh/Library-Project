@@ -62,7 +62,8 @@ public class BookController {
         @RequestParam(name = "releaseDate1", required = false) String releaseDate1,
         @RequestParam(name = "releaseDate2", required = false) String releaseDate2,
         @RequestParam(name = "categories", required = false) List<String> categories,
-        Model model) {
+        Model model,
+        RedirectAttributes redirectAttributes) {
 
         System.out.println("hehe");
         System.out.println("title"+title);
@@ -72,6 +73,8 @@ public class BookController {
 
         if(title == null && author == null && releaseDate1 == null && releaseDate2 == null && categories == null)
         {
+            redirectAttributes.addFlashAttribute("error", "Please enter at least one search criteria");
+            System.out.println("Please enter at least one search criteria");
             return "redirect:/books";
         }
 

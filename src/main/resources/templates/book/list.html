@@ -30,6 +30,10 @@
                 <p>No books found.</p>
             </div>
             
+            <div th:if="${error != null}" class="alert alert-info">
+                <p th:text="${error}"></p>
+            </div>
+            
             <div class="mb-4">
                 <form method="get" th:action="@{/books/search}" class="mb-4">
                     <div class="row g-3">
