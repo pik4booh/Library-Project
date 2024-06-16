@@ -114,6 +114,7 @@ public class BookController {
 
     @GetMapping("/listCopyBooks/{idBook}")
     public String listCopyBooks(@PathVariable(name = "idBook") final Integer idBook, final Model model) {
+        model.addAttribute("bookValue", idBook);
 
         try {
             List<Object[]> copyBooks = bookService.getAvailableCopyBooks(idBook);
@@ -127,13 +128,14 @@ public class BookController {
         
     }
 
-    @GetMapping("/add")
-    public String add(@ModelAttribute("book") final BookDTO bookDTO) {
+    @GetMapping("/add/{idBook}")
+    public String add(@PathVariable(name = "idBook") final Integer idBook, @ModelAttribute("book") final BookDTO bookDTO, final Model model) {
+        model.addAttribute("bookValue", idBook);
         return "book/add";
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("book") @Valid final BookDTO bookDTO,
+    @PostMapping("/add/{idBook}")
+    public String add(@PathVariable(name = "idBook") final Integer idBook, @ModelAttribute("book") @Valid final BookDTO bookDTO,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "book/add";
@@ -146,7 +148,7 @@ public class BookController {
     @GetMapping("/edit/{idBook}")
     public String edit(@PathVariable(name = "idBook") final Integer idBook, final Model model) {
         model.addAttribute("book", bookService.get(idBook));
-        return "book/edit";
+        return "redirect:/books/listCopyBooks/"+idBook;
     }
 
     @PostMapping("/edit/{idBook}")
