@@ -1,5 +1,7 @@
 package io.bootify.library.model;
 
+import io.bootify.library.domain.Book;
+import io.bootify.library.domain.TypeMember;
 import jakarta.validation.constraints.NotNull;
 
 
@@ -13,9 +15,9 @@ public class BookMemberDTO {
     @NotNull
     private Integer takeAway;
 
-    private Integer book;
+    private Book book;
 
-    private Integer typeMember;
+    private TypeMember typeMember;
 
     public Integer getIdBookMember() {
         return idBookMember;
@@ -41,19 +43,19 @@ public class BookMemberDTO {
         this.takeAway = takeAway;
     }
 
-    public Integer getBook() {
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(final Integer book) {
+    public void setBook(final Book book) {
         this.book = book;
     }
 
-    public Integer getTypeMember() {
+    public TypeMember getTypeMember() {
         return typeMember;
     }
 
-    public void setTypeMember(final Integer typeMember) {
+    public void setTypeMember(final TypeMember typeMember) {
         this.typeMember = typeMember;
     }
 

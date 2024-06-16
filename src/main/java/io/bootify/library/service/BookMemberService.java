@@ -61,18 +61,18 @@ public class BookMemberService {
         bookMemberDTO.setIdBookMember(bookMember.getIdBookMember());
         bookMemberDTO.setOnTheSpot(bookMember.getOnTheSpot());
         bookMemberDTO.setTakeAway(bookMember.getTakeAway());
-        bookMemberDTO.setBook(bookMember.getBook() == null ? null : bookMember.getBook().getIdBook());
-        bookMemberDTO.setTypeMember(bookMember.getTypeMember() == null ? null : bookMember.getTypeMember().getIdTypeMember());
+        bookMemberDTO.setBook(bookMember.getBook() == null ? null : bookMember.getBook());
+        bookMemberDTO.setTypeMember(bookMember.getTypeMember() == null ? null : bookMember.getTypeMember());
         return bookMemberDTO;
     }
 
     private BookMember mapToEntity(final BookMemberDTO bookMemberDTO, final BookMember bookMember) {
         bookMember.setOnTheSpot(bookMemberDTO.getOnTheSpot());
         bookMember.setTakeAway(bookMemberDTO.getTakeAway());
-        final Book book = bookMemberDTO.getBook() == null ? null : bookRepository.findById(bookMemberDTO.getBook())
+        final Book book = bookMemberDTO.getBook() == null ? null : bookRepository.findById(bookMemberDTO.getBook().getIdBook())
                 .orElseThrow(() -> new NotFoundException("book not found"));
         bookMember.setBook(book);
-        final TypeMember typeMember = bookMemberDTO.getTypeMember() == null ? null : typeMemberRepository.findById(bookMemberDTO.getTypeMember())
+        final TypeMember typeMember = bookMemberDTO.getTypeMember() == null ? null : typeMemberRepository.findById(bookMemberDTO.getTypeMember().getIdTypeMember())
                 .orElseThrow(() -> new NotFoundException("typeMember not found"));
         bookMember.setTypeMember(typeMember);
         return bookMember;
