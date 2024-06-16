@@ -25,7 +25,7 @@
                         <input type="file" id="cover" name="coverFile" class="form-control"/>
                     </div>
                 </div> 
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='book', type='select')}" />
+                <input type="hidden" id="book" name="book" th:value="${bookValue}" />
                 <input type="submit" th:value="#{copyBook.add.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>

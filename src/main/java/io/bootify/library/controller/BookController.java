@@ -47,12 +47,20 @@ public class BookController {
 
     @GetMapping
     public String list(final Model model) {
-        model.addAttribute("books", bookService.findAll());
-        model.addAttribute("categories", categoryService.findAll());
+        
+        try {
+            model.addAttribute("books", bookService.findAll());
+            model.addAttribute("categories", categoryService.findAll());
 
-        List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
-        model.addAttribute("mostBorrowedBooks", mostBorrowedBooks);
-        return "book/list";
+            List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
+            model.addAttribute("mostBorrowedBooks", mostBorrowedBooks);
+            return "book/list";
+        } catch (Exception e) {
+            // TODO: handle exception
+            model.addAttribute("error", e.getMessage());
+            return "book/list";
+        }
+        
     }
 
     @GetMapping("/search")
@@ -91,45 +99,32 @@ public class BookController {
             date2 = LocalDate.parse(releaseDate2);
         }
 
-        System.out.println("date1"+date1);
-        System.out.println("date2"+date2);
+        try {
+            List<Book> books = customBookRepository .findBooksByCriteria(title,author,date1,date2,categories);
+            model.addAttribute("books", books);
+            return "book/bookSearch";
 
-        List<Book> books = customBookRepository .findBooksByCriteria(title,author,date1,date2,categories);
-        for (Book b : books) {
-            System.out.println("title"+b.getTitle());
+        } catch (Exception e) {
+            // TODO: handle exception
+            redirectAttributes.addFlashAttribute("info", e.getMessage());
+            return "book/bookSearch";
         }
-        model.addAttribute("books", books);
-
-        return "book/bookSearch";
+        
     }
 
     @GetMapping("/listCopyBooks/{idBook}")
     public String listCopyBooks(@PathVariable(name = "idBook") final Integer idBook, final Model model) {
-        System.out.println("hehe");
-        System.out.println("idBook: " + idBook);
 
-        // Optional<Book> optionalBook = bookRepository.findById(idBook);
-
-        // if (!optionalBook.isPresent()) {
-        //     System.out.println("Book not found with id: " + idBook);
-        //     model.addAttribute("error", "Book not found");
-        //     return "errorPage"; // Replace with your actual error page
-        // }
-
-        // Book book = optionalBook.get();
-        // System.out.println("book: " + book);
-
-        // // Initialize the copyBooks collection within the Hibernate session
-        // Hibernate.initialize(book.getCopyBooks());
-
-        // Set<CopyBook> copyBooks = book.getCopyBooks();
-        // for (CopyBook copyBook : copyBooks) {
-        //     System.out.println("Isbn: " + copyBook.getIsbn());
-        // }
-
-        List<Object[]> copyBooks = bookService.getAvailableCopyBooks(idBook);
-        model.addAttribute("copyBooks", copyBooks);
-        return "book/listCopyBooks";
+        try {
+            List<Object[]> copyBooks = bookService.getAvailableCopyBooks(idBook);
+            model.addAttribute("copyBooks", copyBooks);
+            return "book/listCopyBooks";
+        } catch (Exception e) {
+            // TODO: handle exception
+            model.addAttribute("error", e.getMessage());
+            return "book/listCopyBooks";
+        }
+        
     }
 
     @GetMapping("/add")

@@ -52,13 +52,14 @@ public class CopyBookController {
         return "copyBook/list";
     }
 
-    @GetMapping("/add")
-    public String add(@ModelAttribute("copyBook") final CopyBookDTO copyBookDTO) {
+    @GetMapping("/add/{idBook}")
+    public String add(@PathVariable(name = "idBook") final Integer idBook, @ModelAttribute("copyBook") final CopyBookDTO copyBookDTO, final Model model) {
+        model.addAttribute("bookValue", idBook);
         return "copyBook/add";
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("copyBook") @Valid final CopyBookDTO copyBookDTO, @RequestParam("coverFile") MultipartFile coverFile,
+    @PostMapping("/add/{idBook}")
+    public String add(@PathVariable(name = "idBook") final Integer idBook, @ModelAttribute("copyBook") @Valid final CopyBookDTO copyBookDTO, @RequestParam("coverFile") MultipartFile coverFile,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "copyBook/add";
@@ -72,7 +73,7 @@ public class CopyBookController {
         }
         // copyBookService.create(copyBookDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("copyBook.create.success"));
-        return "redirect:/copyBooks";
+        return "redirect:/books/listCopyBooks/"+idBook;
     }
 
     @GetMapping("/edit/{idCopyBook}")
