@@ -29,10 +29,16 @@
                     <tbody>
                         <tr th:each="bookMember : ${bookMembers}">
                             <td>[[${bookMember.idBookMember}]]</td>
-                            <td>[[${bookMember.onTheSpot}]]</td>
-                            <td>[[${bookMember.takeAway}]]</td>
-                            <td>[[${bookMember.book}]]</td>
-                            <td>[[${bookMember.typeMember}]]</td>
+                            <td>
+                                <span th:if="${bookMember.onTheSpot == 1}" class="badge bg-success">Permitted</span>
+                                <span th:if="${bookMember.onTheSpot == 0}" class="badge bg-danger">Not Permitted</span>
+                            </td>
+                            <td>
+                                <span th:if="${bookMember.takeAway == 1}" class="badge bg-success">Permitted</span>
+                                <span th:if="${bookMember.takeAway == 0}" class="badge bg-danger">Not Permitted</span>
+                            </td>
+                            <td>[[${bookMember.book.getTitle()}]]</td>
+                            <td>[[${bookMember.typeMember.getName()}]]</td>
                             <td>
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/bookMembers/edit/{idBookMember}(idBookMember=${bookMember.idBookMember})}" class="btn btn-sm btn-secondary">[[#{bookMember.list.edit}]]</a>

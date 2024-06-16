@@ -34,11 +34,11 @@ public class BookMember {
     @Column(nullable = false)
     private Integer takeAway;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "type_member_id")
     private TypeMember typeMember;
 
