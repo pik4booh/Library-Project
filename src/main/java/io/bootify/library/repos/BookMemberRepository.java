@@ -2,7 +2,6 @@ package io.bootify.library.repos;
 
 import io.bootify.library.domain.Book;
 import io.bootify.library.domain.BookMember;
-import io.bootify.library.domain.Member;
 import io.bootify.library.domain.TypeMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 

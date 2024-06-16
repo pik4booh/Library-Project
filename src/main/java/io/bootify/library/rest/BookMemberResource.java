@@ -42,7 +42,7 @@ public class BookMemberResource {
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<Integer> createBookMember(
-            @RequestBody @Valid final BookMemberDTO bookMemberDTO) {
+            @RequestBody @Valid final BookMemberDTO bookMemberDTO) throws Exception {
         final Integer createdIdBookMember = bookMemberService.create(bookMemberDTO);
         return new ResponseEntity<>(createdIdBookMember, HttpStatus.CREATED);
     }

@@ -40,7 +40,11 @@ public class BookMemberService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Integer create(final BookMemberDTO bookMemberDTO) {
+    public Integer create(final BookMemberDTO bookMemberDTO) throws Exception {
+        BookMember existingBookMember = bookMemberRepository.findFirstByBookAndTypeMember(bookMemberDTO.getBook(), bookMemberDTO.getTypeMember());
+        if (existingBookMember != null) {
+            throw new Exception("Permission already exists for this book and member type");
+        }
         final BookMember bookMember = new BookMember();
         mapToEntity(bookMemberDTO, bookMember);
         return bookMemberRepository.save(bookMember).getIdBookMember();

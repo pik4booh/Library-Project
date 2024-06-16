@@ -63,9 +63,19 @@ public class BookMemberController {
         if (bindingResult.hasErrors()) {
             return "bookMember/add";
         }
-        bookMemberService.create(bookMemberDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("bookMember.create.success"));
-        return "redirect:/bookMembers";
+
+        try {
+            bookMemberService.create(bookMemberDTO);
+            return "redirect:/bookMembers";
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/bookMembers/add";
+
+        }
+        
     }
 
     @GetMapping("/edit/{idBookMember}")

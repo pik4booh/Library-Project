@@ -13,6 +13,10 @@
                     <a th:href="@{/bookMembers}" class="btn btn-secondary">[[#{bookMember.add.back}]]</a>
                 </div>
             </div>
+            <div th:if="${error != null}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
             <div th:replace="~{fragments/forms::globalErrors('bookMember')}" />
             <form th:action="${requestUri}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='onTheSpot', required=true, type='number')}" />
