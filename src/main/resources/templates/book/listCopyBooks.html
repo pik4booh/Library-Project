@@ -7,6 +7,9 @@
     <body>
         <div layout:fragment="content">
             <div style="height:50px"></div>
+            <div th:if="${error != null}" class="alert alert-info">
+                <p th:text="${error}"></p>
+            </div>
             <div class="row">
                 <!-- Card 1 -->
                 <div class="col-md-4 mb-4">

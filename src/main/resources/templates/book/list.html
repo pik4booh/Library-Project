@@ -7,6 +7,9 @@
 <body>
 <div layout:fragment="content">
     <div style="height: 50px;"></div>
+    <div th:if="${error != null}" class="alert alert-info">
+        <p th:text="${error}"></p>
+    </div>
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="mb-0">Top 5 Books</h1>
@@ -30,8 +33,8 @@
             </div>
         </div>
 
-        <div th:if="${error != null}" class="alert alert-info">
-            <p th:text="${error}"></p>
+        <div th:if="${info != null}" class="alert alert-info">
+            <p th:text="${info}"></p>
         </div>
 
         <!-- Search Form -->
