@@ -26,7 +26,7 @@ public class NewBookDTO {
     private String coteNumber;
 
     @NotNull
-    private String releaseDate;
+    private LocalDateTime releaseDate;
 
     @Size(max = 255)
     private String author;
@@ -83,11 +83,11 @@ public class NewBookDTO {
         this.coteNumber = coteNumber;
     }
 
-    public String getReleaseDate() {
+    public LocalDateTime getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(final String releaseDate) {
+    public void setReleaseDate(final LocalDateTime releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -10,6 +10,9 @@
             <div th:if="${error != null}" class="alert alert-danger">
                 <p th:text="${error}"></p>
             </div>
+            <div th:if="${success != null}" class="alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{book.add.headline}]]</h1>
                 <div>

@@ -22,13 +22,8 @@ import io.bootify.library.util.WebUtils;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -193,16 +188,8 @@ public class BookController {
             bookDTO.setSummary(newBookDTO.getSummary());
             bookDTO.setCollection(newBookDTO.getCollection());
             bookDTO.setCoteNumber(newBookDTO.getCoteNumber());
-                // bookDTO.setReleaseDate(new Datetime"2024-06-17 12:00:00");
+            bookDTO.setReleaseDate(newBookDTO.getReleaseDate());
             bookDTO.setAuthor(newBookDTO.getAuthor());
-
-            LocalDateTime dateTime = null;
-            if (newBookDTO.getReleaseDate() != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-                dateTime = LocalDateTime.parse(newBookDTO.getReleaseDate(), formatter);
-            }
-            bookDTO.setReleaseDate(dateTime);
-            
 
         try {
             Integer idBook = bookService.create(bookDTO);
@@ -226,7 +213,7 @@ public class BookController {
                 }
             }
 
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("book.create.success"));
+            redirectAttributes.addFlashAttribute("success", "book created successfully");
             return "redirect:/books/add";
 
         } catch (Exception e) {
@@ -257,15 +244,23 @@ public class BookController {
 
     @PostMapping("/delete/{idBook}")
     public String delete(@PathVariable(name = "idBook") final Integer idBook,
-            final RedirectAttributes redirectAttributes) {
-        final ReferencedWarning referencedWarning = bookService.getReferencedWarning(idBook);
-        if (referencedWarning != null) {
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
-                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
-        } else {
-            bookService.delete(idBook);
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("book.delete.success"));
-        }
+        final RedirectAttributes redirectAttributes) {
+            final ReferencedWarning referencedWarning = bookService.getReferencedWarning(idBook);
+            System.out.println("hehe"+referencedWarning);
+            try {
+                if (referencedWarning != null) {
+                    redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
+                            WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+                } else {
+                    bookService.delete(idBook);
+                    System.out.println("success");
+                    redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("book.delete.success"));
+                }
+            } catch (Exception e) {
+                // TODO: handle exception
+                System.out.println(e.getMessage());
+            }
+        
         return "redirect:/books";
     }
 
