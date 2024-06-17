@@ -128,8 +128,8 @@ public class BookController {
         
     }
 
-    @GetMapping("/add/{idBook}")
-    public String add(@PathVariable(name = "idBook") final Integer idBook, @ModelAttribute("book") final BookDTO bookDTO, final Model model) {
+    @GetMapping("/add")
+    public String add(final Integer idBook, @ModelAttribute("book") final BookDTO bookDTO, final Model model) {
         model.addAttribute("bookValue", idBook);
         return "book/add";
     }
