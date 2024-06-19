@@ -91,7 +91,7 @@ public class BookController {
 
         if(title == null && author == null && releaseDate1 == null && releaseDate2 == null && categories == null)
         {
-            redirectAttributes.addFlashAttribute("error", "Please enter at least one search criteria");
+            redirectAttributes.addFlashAttribute("info", "Ajouter au moins une critère");
             return "redirect:/books";
         }
 
