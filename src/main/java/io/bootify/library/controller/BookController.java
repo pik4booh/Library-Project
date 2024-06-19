@@ -227,7 +227,7 @@ public class BookController {
     @GetMapping("/edit/{idBook}")
     public String edit(@PathVariable(name = "idBook") final Integer idBook, final Model model) {
         model.addAttribute("book", bookService.get(idBook));
-        return "redirect:/books/listCopyBooks/"+idBook;
+        return "book/edit";
     }
 
     @PostMapping("/edit/{idBook}")
