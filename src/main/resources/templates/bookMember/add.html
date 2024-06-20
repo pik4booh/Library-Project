@@ -1,23 +1,82 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard}">
-    <head>
-        <title>[[#{bookMember.add.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div style="height:50px"></div>
+      layout:decorate="~{dashboard}">
+<head>
+    <title>[[#{bookMember.add.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 56px; /* Height of the navbar */
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .form-container {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-container form {
+            background-color: #040405;
+            color: white;
+        }
+
+        .form-container .form-control {
+            background-color: black;
+            color: white;
+            border-color: white;
+        }
+
+        .form-container .form-control:focus {
+            background-color: black;
+            color: white;
+            border-color: white;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container">
+        
+        <div th:if="${error != null}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div th:replace="~{fragments/forms::globalErrors('bookMember')}" />
+        <div class="form-container">
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{bookMember.add.headline}]]</h1>
                 <div>
                     <a th:href="@{/bookMembers}" class="btn btn-secondary">[[#{bookMember.add.back}]]</a>
                 </div>
             </div>
-            <div th:if="${error != null}" class="alert alert-danger">
-                <p th:text="${error}"></p>
-            </div>
-
-            <div th:replace="~{fragments/forms::globalErrors('bookMember')}" />
             <form th:action="${requestUri}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='onTheSpot', required=true, type='number')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='takeAway', required=true, type='number')}" />
@@ -26,5 +85,7 @@
                 <input type="submit" th:value="#{bookMember.add.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>
-    </body>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

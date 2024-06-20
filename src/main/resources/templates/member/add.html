@@ -1,18 +1,74 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title>[[#{member.add.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
+      layout:decorate="~{layout}">
+<head>
+    <title>[[#{member.add.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 56px; /* Height of the navbar */
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .form-control {
+            background-color: #040405;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .form-control:focus {
+            border-color: white;
+            box-shadow: none;
+        }
+
+        select.form-control {
+            background-color: #040405;
+            border: 1px solid white;
+            color: white;
+        }
+
+        select.form-control:focus {
+            border-color: white;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container">
+       
+        <div th:replace="~{fragments/forms::globalErrors('member')}" />
+        <div class="section">
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{member.add.headline}]]</h1>
                 <div>
                     <a th:href="@{/members}" class="btn btn-secondary">[[#{member.add.back}]]</a>
                 </div>
             </div>
-            <div th:replace="~{fragments/forms::globalErrors('member')}" />
             <form th:action="${requestUri}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='member', field='name', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='member', field='birth', required=true, inputClass='js-datetimepicker')}" />
@@ -23,5 +79,7 @@
                 <input type="submit" th:value="#{member.add.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>
-    </body>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

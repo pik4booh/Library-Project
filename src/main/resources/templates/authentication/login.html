@@ -59,8 +59,9 @@
     <div class="login-form">
         <h2 class="text-center">Login</h2>
 
-        <div th:if="${error != null}" class="alert alert-danger">
+        <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
             <p th:text="${error}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <form th:action="@{/authentication/login}" method="post" th:object="${librarianDTO}">

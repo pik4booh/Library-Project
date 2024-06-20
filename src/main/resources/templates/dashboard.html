@@ -7,6 +7,10 @@
     <title>Dashboard Layout</title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.js}" defer></script>
+    <script th:src="@{/js/app.js}" defer></script>
+    
     <style>
         body {
             display: flex;
@@ -17,7 +21,7 @@
         .navbar {
             z-index: 1000;
             width: 100%;
-            position: fixed;
+            position: fixed !important ;
             top: 0;
             left: 0;
             background-color: #040405;
@@ -103,7 +107,6 @@
     </div>
 
     <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

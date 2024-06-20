@@ -1,67 +1,111 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard}">
-    <head>
-        <title>[[#{book.add.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div style="height:50px"></div>
-            <div th:if="${error != null}" class="alert alert-danger">
-                <p th:text="${error}"></p>
-            </div>
-            <div th:if="${success != null}" class="alert alert-success">
-                <p th:text="${success}"></p>
-            </div>
-            <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{book.add.headline}]]</h1>
-                <div>
-                    <a th:href="@{/books}" class="btn btn-secondary">[[#{book.add.back}]]</a>
-                </div>
-            </div>
-            <div th:replace="~{fragments/forms::globalErrors('book')}" />
-            <form th:action="${requestUri}" method="post" th:object="${newBookDTO}">
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='title', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='summary')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='collection')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='coteNumber', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='releaseDate', required=true, inputClass='js-datetimepicker')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='book', field='author')}" />
+      layout:decorate="~{layout}">
+<head>
+    <title>[[#{book.add.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        .form-container {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-control {
+            background-color: #040405; /* Couleur de fond pour les inputs */
+            color: white; /* Couleur de texte pour les inputs */
+        }
+
+        .form-label, .form-check-label {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+        .form-check-input {
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div style="height:50px"></div>
+    <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p th:text="${error}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${success != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <p th:text="${success}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    <div th:replace="~{fragments/forms::globalErrors('book')}" />
+    <div class="form-container">
+        <div class="d-flex flex-wrap mb-4">
+            <h1 class="flex-grow-1">[[#{book.add.headline}]]</h1>
+            <div>
+                <a th:href="@{/books}" class="btn btn-secondary">[[#{book.add.back}]]</a>
+            </div>
+        </div>
+        <form th:action="${requestUri}" method="post" th:object="${newBookDTO}">
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='title', required=true)}" />
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='summary')}" />
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='collection')}" />
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='coteNumber', required=true)}" />
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='releaseDate', required=true, inputClass='js-datetimepicker')}" />
+            <div th:replace="~{fragments/forms::inputRow(object='book', field='author')}" />
+
+            <div class="row mb-3">
                 <!-- Categories -->
-                <div class="col-md-3">
-                    <label for="category" class="form-label">Categories:</label>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Catégories :</label>
                     <div th:each="category : ${categories}">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" 
-                                th:id="'category_' + ${category.idCategory}" 
-                                th:name="categories" 
-                                th:value="${category.idCategory}"
-                                th:checked="${newBookDTO.categories != null and newBookDTO.categories.contains(category)}"
-                            >
+                                   th:id="'category_' + ${category.idCategory}" 
+                                   th:name="categories" 
+                                   th:value="${category.idCategory}"
+                                   th:checked="${newBookDTO.categories != null and newBookDTO.categories.contains(category)}">
                             <label th:for="'category_' + ${category.idCategory}" class="form-check-label" th:text="${category.name}"></label>
                         </div>
                     </div>
                 </div>
 
                 <!-- Themes -->
-                <div class="mb-3">
-                    <label for="theme" class="form-label">Thème :</label>
+                <div class="col-md-6">
+                    <label for="theme" class="form-label">Thèmes :</label>
                     <div th:each="theme : ${themes}">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" 
-                                th:id="'theme_' + ${theme.idTheme}" 
-                                th:name="themes" 
-                                th:value="${theme.idTheme}"
-                                th:checked="${newBookDTO.themes != null and newBookDTO.themes.contains(theme)}"
-                            >
+                                   th:id="'theme_' + ${theme.idTheme}" 
+                                   th:name="themes" 
+                                   th:value="${theme.idTheme}"
+                                   th:checked="${newBookDTO.themes != null and newBookDTO.themes.contains(theme)}">
                             <label th:for="'theme_' + ${theme.idTheme}" class="form-check-label" th:text="${theme.name}"></label>
                         </div>
                     </div>
                 </div>
-                
-                <input type="submit" th:value="#{book.add.headline}" class="btn btn-primary mt-4" />
-            </form>
-        </div>
-    </body>
+            </div>
+            
+            <input type="submit" th:value="#{book.add.headline}" class="btn btn-primary mt-4" />
+        </form>
+    </div>
+</div>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

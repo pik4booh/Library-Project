@@ -1,57 +1,122 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard}">
-    <head>
-        <title>[[#{bookMember.list.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div style="height:50px"></div>
-                <div class="d-flex flex-wrap mb-4">
+      layout:decorate="~{dashboard}">
+<head>
+    <title>[[#{bookMember.list.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 56px; /* Height of the navbar */
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .table-container {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .table1 {
+            background-color: #040405;
+            color: white;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px; /* Adds space between rows */
+        }
+
+        .table1 th, .table1 td {
+            padding: 15px;
+            border: 1px solid white;
+        }
+
+        .table1 th {
+            text-align: left;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+        .btn-secondary {
+            background-color: #495057;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container">
+        <div th:if="${bookMembers.empty}" class="section">[[#{bookMember.list.empty}]]</div>
+        <div th:if="${!bookMembers.empty}" class="section table-container">
+            <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{bookMember.list.headline}]]</h1>
                 <div>
                     <a th:href="@{/bookMembers/add}" class="btn btn-primary ms-2">[[#{bookMember.list.createNew}]]</a>
                 </div>
             </div>
-            <div th:if="${bookMembers.empty}">[[#{bookMember.list.empty}]]</div>
-            <div th:if="${!bookMembers.empty}" class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">[[#{bookMember.idBookMember.label}]]</th>
-                            <th scope="col">[[#{bookMember.onTheSpot.label}]]</th>
-                            <th scope="col">[[#{bookMember.takeAway.label}]]</th>
-                            <th scope="col">[[#{bookMember.book.label}]]</th>
-                            <th scope="col">[[#{bookMember.typeMember.label}]]</th>
-                            <th><!-- --></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="bookMember : ${bookMembers}">
-                            <td>[[${bookMember.idBookMember}]]</td>
-                            <td>
-                                <span th:if="${bookMember.onTheSpot == 1}" class="badge bg-success">Permitted</span>
-                                <span th:if="${bookMember.onTheSpot == 0}" class="badge bg-danger">Not Permitted</span>
-                            </td>
-                            <td>
-                                <span th:if="${bookMember.takeAway == 1}" class="badge bg-success">Permitted</span>
-                                <span th:if="${bookMember.takeAway == 0}" class="badge bg-danger">Not Permitted</span>
-                            </td>
-                            <td>[[${bookMember.book.getTitle()}]]</td>
-                            <td>[[${bookMember.typeMember.getName()}]]</td>
-                            <td>
-                                <div class="float-end text-nowrap">
-                                    <a th:href="@{/bookMembers/edit/{idBookMember}(idBookMember=${bookMember.idBookMember})}" class="btn btn-sm btn-secondary">[[#{bookMember.list.edit}]]</a>
-                                    <form th:action="@{/bookMembers/delete/{idBookMember}(idBookMember=${bookMember.idBookMember})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{bookMember.list.delete}]]</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <table class="table1 align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">[[#{bookMember.idBookMember.label}]]</th>
+                        <th scope="col">[[#{bookMember.book.label}]]</th>
+                        <th scope="col">[[#{bookMember.typeMember.label}]]</th>
+                        <th scope="col">[[#{bookMember.onTheSpot.label}]]</th>
+                        <th scope="col">[[#{bookMember.takeAway.label}]]</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bookMember : ${bookMembers}">
+                        <td>[[${bookMember.idBookMember}]]</td>
+                        <td>[[${bookMember.book.getTitle()}]]</td>
+                        <td>[[${bookMember.typeMember.getName()}]]</td>
+                        <td>
+                            <span th:if="${bookMember.onTheSpot == 1}">✅</span>
+                            <span th:if="${bookMember.onTheSpot == 0}">❌</span>
+                        </td>
+                        <td>
+                            <span th:if="${bookMember.takeAway == 1}">✅</span>
+                            <span th:if="${bookMember.takeAway == 0}">❌</span>
+                        </td>
+                        <td>
+                            <div class="float-end text-nowrap">
+                                <a th:href="@{/bookMembers/edit/{idBookMember}(idBookMember=${bookMember.idBookMember})}" class="btn btn-sm btn-secondary">[[#{bookMember.list.edit}]]</a>
+                                <form th:action="@{/bookMembers/delete/{idBookMember}(idBookMember=${bookMember.idBookMember})}"
+                                      th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                    <button type="submit" class="btn btn-sm btn-secondary">[[#{bookMember.list.delete}]]</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </body>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

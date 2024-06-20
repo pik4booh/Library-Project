@@ -11,52 +11,78 @@
         <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}" defer></script>
         <script th:src="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.js}" defer></script>
         <script th:src="@{/js/app.js}" defer></script>
+
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+            }
+    
+            .navbar {
+                z-index: 1000;
+                width: 100%;
+                position: fixed !important ;
+                top: 0;
+                left: 0;
+                background-color: #040405;
+                border-bottom-right-radius: 10px;
+            }
+    
+            .sidebar {
+                width: 250px;
+                height: 100%;
+                background-color: #343a40;
+                position: fixed;
+                top: 56px; /* Height of the navbar */
+                left: 0;
+                bottom: 0;
+                padding-top: 10px;
+            }
+    
+            .sidebar a {
+                color: #ffffff;
+                text-decoration: none;
+                padding: 10px 15px;
+                display: flex;
+                align-items: center;
+            }
+    
+            .sidebar a:hover {
+                background-color: #040405;
+            }
+    
+            .sidebar i {
+                margin-right: 10px;
+            }
+    
+            .main-content {
+                margin-left: 250px;
+                padding: 20px;
+                flex-grow: 1;
+            }
+        </style>
     </head>
     <body>
-        <header class="bg-light">
-            <div class="container">
-                <nav class="navbar navbar-light navbar-expand-md">
-                    <a th:href="@{/}" class="navbar-brand">
-                        <img th:src="@{/images/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
-                        <span class="ps-1">[[#{app.title}]]</span>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-                            th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarToggle">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="navbar-item">
-                                <a th:href="@{/}" class="nav-link">[[#{navigation.home}]]</a>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarEntitiesLink" role="button"
-                                        aria-expanded="false">[[#{navigation.entities}]]</a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-                                    <li><a th:href="@{/members}" class="dropdown-item">[[#{member.list.headline}]]</a></li>
-                                    <li><a th:href="@{/categories}" class="dropdown-item">[[#{category.list.headline}]]</a></li>
-                                    <li><a th:href="@{/themes}" class="dropdown-item">[[#{theme.list.headline}]]</a></li>
-                                    <li><a th:href="@{/bookThemes}" class="dropdown-item">[[#{bookTheme.list.headline}]]</a></li>
-                                    <li><a th:href="@{/books}" class="dropdown-item">[[#{book.list.headline}]]</a></li>
-                                    <li><a th:href="@{/typeMembers}" class="dropdown-item">[[#{typeMember.list.headline}]]</a></li>
-                                    <li><a th:href="@{/typeLoanings}" class="dropdown-item">[[#{typeLoaning.list.headline}]]</a></li>
-                                    <li><a th:href="@{/copyBooks}" class="dropdown-item">[[#{copyBook.list.headline}]]</a></li>
-                                    <li><a th:href="@{/bookMembers}" class="dropdown-item">[[#{bookMember.list.headline}]]</a></li>
-                                    <li><a th:href="@{/loanings}" class="dropdown-item">[[#{loaning.list.headline}]]</a></li>
-                                    <li><a th:href="@{/sanctions}" class="dropdown-item">[[#{sanction.list.headline}]]</a></li>
-                                    <li><a th:href="@{/bookCategories}" class="dropdown-item">[[#{bookCategory.list.headline}]]</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#"> <i class="bi bi-book"></i> Bibliothèque Municipale</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </header>
+        </nav>
         <main class="my-5">
             <div class="container">
-                <p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
-                <p th:if="${MSG_INFO}" class="alert alert-info mb-4" role="alert">[[${MSG_INFO}]]</p>
-                <p th:if="${MSG_ERROR}" class="alert alert-danger mb-4" role="alert">[[${MSG_ERROR}]]</p>
                 <div layout:fragment="content" />
             </div>
         </main>

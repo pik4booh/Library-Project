@@ -46,6 +46,7 @@
             background-color: #040405;
             color: white;
             margin-bottom: 20px;
+            border: 1px solid white;
         }
 
         .card-body {
@@ -77,6 +78,27 @@
         .btn-primary:hover {
             background-color: #495057;
         }
+
+        .table1 {
+            background-color: #040405;
+            color: white;
+            width: 1200px;
+            border-collapse: separate;
+            border-spacing: 0 10px; /* Adds space between rows */
+        }
+
+        .table1 th, .table td {
+            padding: 15px;
+            border: 1px solid white;
+        }
+
+        .table1 th {
+            text-align: left;
+        }
+
+        .btn-group .btn {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +112,7 @@
     <div class="section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0">Top des livres avec le plus d'emprunt</h1>
+                <h1 class="mb-0">🏅 Top des livres avec le plus d'emprunt</h1>
                 <a th:href="@{/books/add}" class="btn btn-primary">[[#{book.list.createNew}]]</a>
             </div>
             <div class="row">
@@ -98,7 +120,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${book[1]}">Titre du livre</h5>
-                            <h6 class="card-subtitle mb-2 text-muted" th:text="${book[2]}">Auteur du livre</h6>
+                            <h6 class="card-text" th:text="${book[2]}">Auteur du livre</h6>
+                            <br>
                             <p class="card-text" th:text="${book[3]}">Résumé du livre</p>
                             <p class="card-text">Nombre d'emprunts: <span th:text="${book[0]}"></span></p>
                         </div>
@@ -113,6 +136,7 @@
 
     <div th:if="${info != null}" class="alert alert-info">
         <p th:text="${info}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <!-- Formulaire de recherche -->
@@ -160,20 +184,20 @@
             <div class="col-md-8">
                 <div class="section">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1 class="mb-0">Liste de tous les livres 📖</h1>
+                        <h1 class="mb-0">📖 Tous les livres</h1>
                     </div>
                     <div th:if="${books.empty}">[[#{book.list.empty}]]</div>
                     <div th:if="${!books.empty}" class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table1">
                             <thead>
                                 <tr>
                                     <th scope="col">[[#{book.idBook.label}]]</th>
                                     <th scope="col">[[#{book.title.label}]]</th>
+                                    <th scope="col">[[#{book.author.label}]]</th>
                                     <th scope="col">[[#{book.summary.label}]]</th>
                                     <th scope="col">[[#{book.collection.label}]]</th>
-                                    <th scope="col">[[#{book.coteNumber.label}]]</th>
                                     <th scope="col">[[#{book.releaseDate.label}]]</th>
-                                    <th scope="col">[[#{book.author.label}]]</th>
+                                    <th scope="col">[[#{book.coteNumber.label}]]</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -181,19 +205,19 @@
                                 <tr th:each="book : ${books}">
                                     <td>[[${book.idBook}]]</td>
                                     <td>[[${book.title}]]</td>
+                                    <td>[[${book.author}]]</td>
                                     <td>[[${book.summary}]]</td>
                                     <td>[[${book.collection}]]</td>
-                                    <td>[[${book.coteNumber}]]</td>
                                     <td>[[${book.releaseDate}]]</td>
-                                    <td>[[${book.author}]]</td>
+                                    <td>[[${book.coteNumber}]]</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a th:href="@{/books/edit/{idBook}(idBook=${book.idBook})}" class="btn btn-sm btn-secondary me-2">[[#{book.list.edit}]]</a>
+                                            <a th:href="@{/books/edit/{idBook}(idBook=${book.idBook})}"><button class="btn btn-sm btn-secondary">✏️</button></a>
                                             <form th:action="@{/books/delete/{idBook}(idBook=${book.idBook})}"
                                                 th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm me-2">
-                                                <button type="submit" class="btn btn-sm btn-secondary">[[#{book.list.delete}]]</button>
+                                                <button type="submit" class="btn btn-sm btn-secondary">🗑️</button>
                                             </form>
-                                            <a th:href="@{/books/listCopyBooks/{idBook}(idBook=${book.idBook})}" class="btn btn-sm btn-secondary me-2">Copies de livres</a>
+                                            <a th:href="@{/books/listCopyBooks/{idBook}(idBook=${book.idBook})}"><button class="btn btn-sm btn-secondary">Exemplaires</button></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -207,6 +231,6 @@
 </div>
 
 <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>
