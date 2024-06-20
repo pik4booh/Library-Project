@@ -124,6 +124,7 @@ public class BookController {
     @GetMapping("/listCopyBooks/{idBook}")
     public String listCopyBooks(@PathVariable(name = "idBook") final Integer idBook, final Model model) {
         model.addAttribute("bookValue", idBook);
+        model.addAttribute("book", bookRepository.findById(idBook).get());
 
         try {
             List<Object[]> copyBooks = bookService.getAvailableCopyBooks(idBook);
@@ -179,10 +180,6 @@ public class BookController {
             System.out.println("- " + theme.getName());
         }
                 
-        // if (bindingResult.hasErrors()) {
-        //     return "redirect:/books/add";
-        // }
-
         BookDTO bookDTO = new BookDTO();
             bookDTO.setTitle(newBookDTO.getTitle());
             bookDTO.setSummary(newBookDTO.getSummary());

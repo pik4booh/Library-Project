@@ -11,15 +11,14 @@
                 <p th:text="${error}"></p>
             </div>
             <div class="row">
-                <!-- Card 1 -->
+                <!-- Card for Book -->
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card card-book">
                         <div class="card-body">
-                            <h5 class="card-title">Book Title 1</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Author 1</h6>
-                            <p class="card-text">
-                                Summary
-                            </p>
+                            <h5 class="card-title" th:text="${book.title}"></h5>
+                            <h6 class="card-text" th:text="${book.author}"></h6>
+                            <br>
+                            <p class="card-text" th:text="${book.summary}"></p>
                         </div>
                     </div>
                 </div>
