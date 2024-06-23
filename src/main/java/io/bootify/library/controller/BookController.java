@@ -65,8 +65,8 @@ public class BookController {
     public String list(final Model model) {
         
         try {
-            model.addAttribute("books", bookService.findAll());
-            model.addAttribute("categories", categoryService.findAll());
+            // model.addAttribute("books", bookService.findAll());
+            // model.addAttribute("categories", categoryService.findAll());
 
             List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
             model.addAttribute("mostBorrowedBooks", mostBorrowedBooks);
@@ -75,6 +75,24 @@ public class BookController {
             // TODO: handle exception
             model.addAttribute("error", e.getMessage());
             return "book/list";
+        }
+        
+    }
+
+    @GetMapping("/listSearch")
+    public String listSearch(final Model model) {
+        
+        try {
+            model.addAttribute("books", bookService.findAll());
+            model.addAttribute("categories", categoryService.findAll());
+
+            List<Object[]> mostBorrowedBooks = bookService.getNMostBorrowedBooks(3);
+            model.addAttribute("mostBorrowedBooks", mostBorrowedBooks);
+            return "book/listSearch";
+        } catch (Exception e) {
+            // TODO: handle exception
+            model.addAttribute("error", e.getMessage());
+            return "book/listSearch";
         }
         
     }
@@ -92,7 +110,7 @@ public class BookController {
         if(title == null && author == null && releaseDate1 == null && releaseDate2 == null && categories == null)
         {
             redirectAttributes.addFlashAttribute("info", "Ajouter au moins une critère");
-            return "redirect:/books";
+            return "redirect:/books/listSearch";
         }
 
         LocalDate date1 = null;
@@ -242,7 +260,7 @@ public class BookController {
         }
         bookService.update(idBook, bookDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("book.update.success"));
-        return "redirect:/books";
+        return "redirect:/books/listSearch";
     }
 
     @PostMapping("/delete/{idBook}")
@@ -264,7 +282,7 @@ public class BookController {
                 System.out.println(e.getMessage());
             }
         
-        return "redirect:/books";
+        return "redirect:/books/listSearch";
     }
 
 }

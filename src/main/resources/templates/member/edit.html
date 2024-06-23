@@ -1,12 +1,65 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard}">
-    <head>
-        <title>[[#{member.edit.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div style="height:50px"></div>
+        layout:decorate="~{layout}">
+<head>
+    <title>[[#{member.edit.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .form-control {
+            background-color: #040405; /* Black input background */
+            color: white;
+            border-color: #495057;
+        }
+
+        .form-control:focus {
+            border-color: #495057;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content" class="container">
+        <div style="height:50px"></div>
+        <!-- Add a black div for the form section -->
+        <div class="section">
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{member.edit.headline}]]</h1>
                 <div>
@@ -25,5 +78,7 @@
                 <input type="submit" th:value="#{member.edit.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>
-    </body>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
 </html>

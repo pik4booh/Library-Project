@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Layout</title>
-    <link rel="icon" href="@{/images/favicon.png}" />
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
     <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}" defer></script>
     <script th:src="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.js}" defer></script>
     <script th:src="@{/js/app.js}" defer></script>
@@ -88,16 +86,16 @@
     <div class="sidebar d-flex flex-column">
         <h2 class="text-white text-center">Menu</h2>
         <a href="/books">
-            <i class="bi bi-house-door"></i> Accueil
+            Accueil
         </a>
         <a href="/members">
-            <i class="bi bi-people"></i> Tous les membres
+            Tous les membres
         </a>
-        <a href="/books">
-            <i class="bi bi-book"></i> Tous les livres
+        <a href="/books/listSearch">
+            Tous les livres
         </a>
         <a href="/bookMembers">
-            <i class="bi bi-key"></i> Voir permission
+            Voir permission
         </a>
     </div>
 

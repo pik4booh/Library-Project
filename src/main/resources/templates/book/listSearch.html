@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard}">
+<head>
+    <title>[[#{book.list.headline}]]</title>
+    <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #130deb;
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+
+        .container {
+            margin-top: 56px; /* Height of the navbar */
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #040405;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .search-form {
+            background-color: #040405;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 20px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            width: 250px; /* Adjust width as needed */
+        }
+
+        .search-form .form-check {
+            margin-bottom: 10px;
+        }
+
+        .search-form .btn {
+            width: 100%;
+        }
+
+        .card {
+            background-color: #040405;
+            color: white;
+            margin-bottom: 20px;
+            border: 1px solid white;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            font-size: 1rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #495057;
+        }
+
+        .btn-group .btn {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div th:if="${info != null}" class="alert alert-info">
+        <p th:text="${info}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Formulaire de recherche -->
+    <div class="container">
+        <div class="row">
+            <!-- Liste des livres -->
+            <div class="col-md-9">
+                <div class="section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="mb-0">📖 Tous les livres</h1>
+                    </div>
+                    <div th:if="${books.empty}">[[#{book.list.empty}]]</div>
+                    <div th:if="${!books.empty}">
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <div th:each="book : ${books}" class="col">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${book.title}"></h5>
+                                        <h6 class="card-text" th:text="${book.author}"></h6>
+                                        <br>
+                                        <p class="card-text" th:text="${book.summary}"></p>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><strong>Collection:</strong> <span th:text="${book.collection}"></span></li>
+                                            <li class="list-group-item"><strong>Date de publication:</strong> <span th:text="${book.releaseDate}"></span></li>
+                                            <li class="list-group-item"><strong>Cote:</strong> <span th:text="${book.coteNumber}"></span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="btn-group" role="group">
+                                            <a th:href="@{/books/edit/{idBook}(idBook=${book.idBook})}" class="btn btn-sm btn-secondary">[[#{book.list.edit}]]</a>
+                                            <form th:action="@{/books/delete/{idBook}(idBook=${book.idBook})}"
+                                                  th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm me-2">
+                                                <button type="submit" class="btn btn-sm btn-secondary">[[#{book.list.delete}]]</button>
+                                            </form>
+                                            <a th:href="@{/books/listCopyBooks/{idBook}(idBook=${book.idBook})}" class="btn btn-sm btn-secondary">Exemplaires</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form de recherche -->
+            <div class="col-md-3">
+                <div class="search-form">
+                    <h2 class="text-center">Recherche</h2>
+                    <form method="get" th:action="@{/books/search}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Titre :</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="author" class="form-label">Auteur :</label>
+                            <input type="text" class="form-control" id="author" name="author">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Catégories :</label>
+                            <div th:each="category : ${categories}">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" th:id="'category_' + ${category.idCategory}" th:name="categories" th:value="${category.name}">
+                                    <label th:for="'category_' + ${category.idCategory}" class="form-check-label" th:text="${category.name}">Catégorie</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="releaseDate" class="form-label">Date de publication :</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="date" class="form-control" id="releaseDate1" name="releaseDate1">
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" id="releaseDate2" name="releaseDate2">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
