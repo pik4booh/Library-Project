@@ -10,24 +10,26 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{copyBook.add.headline}]]</h1>
                 <div>
-                    <a th:href="@{/copyBooks}" class="btn btn-secondary">[[#{copyBook.add.back}]]</a>
+                    <a th:href="@{/copyBooks}" class="btn button-52">[[#{copyBook.add.back}]]</a>
                 </div>
             </div>
-            <div th:replace="~{fragments/forms::globalErrors('copyBook')}" />
-            <form th:action="${requestUri}" method="post" enctype="multipart/form-data">
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='language')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='isbn', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='editDate', inputClass='js-datetimepicker')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='pageNumber', type='number')}" />
-                <div class="row mb-3">
-                    <label for="cover" class="col-md-2 col-form-label">Cover Image</label>
-                    <div class="col-md-10">
-                        <input type="file" id="cover" name="coverFile" class="form-control"/>
-                    </div>
-                </div> 
-                <input type="hidden" id="book" name="book" th:value="${bookValue}" />
-                <input type="submit" th:value="#{copyBook.add.headline}" class="btn btn-primary mt-4" />
-            </form>
+            <div class="card card-background">
+                <div th:replace="~{fragments/forms::globalErrors('copyBook')}" />
+                <form th:action="${requestUri}" method="post" enctype="multipart/form-data">
+                    <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='language')}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='isbn', required=true)}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='editDate', inputClass='js-datetimepicker')}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='copyBook', field='pageNumber', type='number')}" />
+                    <div class="row mb-3">
+                        <label for="cover" class="col-md-2 col-form-label">Cover Image</label>
+                        <div class="col-md-10">
+                            <input type="file" id="cover" name="coverFile" class="form-control"/>
+                        </div>
+                    </div> 
+                    <input type="hidden" id="book" name="book" th:value="${bookValue}" />
+                    <input type="submit" th:value="#{copyBook.add.headline}" class="btn btn-primary mt-4" />
+                </form>
+        </div>
         </div>
     </body>
 </html>

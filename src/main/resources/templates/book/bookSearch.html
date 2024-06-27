@@ -14,41 +14,26 @@
                 </div>
             </div>
             <div th:if="${books.empty}">[[#{book.list.empty}]]</div>
-            <div th:if="${!books.empty}" class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">[[#{book.idBook.label}]]</th>
-                            <th scope="col">[[#{book.title.label}]]</th>
-                            <th scope="col">[[#{book.summary.label}]]</th>
-                            <th scope="col">[[#{book.collection.label}]]</th>
-                            <th scope="col">[[#{book.coteNumber.label}]]</th>
-                            <th scope="col">[[#{book.releaseDate.label}]]</th>
-                            <th scope="col">[[#{book.author.label}]]</th>
-                            <th><!-- --></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="book : ${books}">
-                            <td>[[${book.idBook}]]</td>
-                            <td>[[${book.title}]]</td>
-                            <td>[[${book.summary}]]</td>
-                            <td>[[${book.collection}]]</td>
-                            <td>[[${book.coteNumber}]]</td>
-                            <td>[[${book.releaseDate}]]</td>
-                            <td>[[${book.author}]]</td>
-                            <td>
-                                <div class="float-end text-nowrap">
-                                    <a th:href="@{/books/edit/{idBook}(idBook=${book.idBook})}" class="btn btn-sm btn-secondary">[[#{book.list.edit}]]</a>
-                                    <form th:action="@{/books/delete/{idBook}(idBook=${book.idBook})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{book.list.delete}]]</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <div th:if="${!books.empty}" class="row">
+                <div th:each="book : ${books}" class="col-md-4 mb-4">
+                    <div class="card h-100 ">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${book.title}">Book Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${book.author}">Book Author</h6>
+                            <p class="card-text" th:text="${book.summary}">Book Summary</p>
+                            <p class="card-text"><b>Collection: </b><span th:text="${book.collection}"></span></p>
+                            <p class="card-text"><b>Cote Number: </b><span th:text="${book.coteNumber}"></span></p>
+                            <p class="card-text"><b>Release Date: </b><span th:text="${book.releaseDate}"></span></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="btn-group" role="group">
+                                <a th:href="@{/books/edit/{idBook}(idBook=${book.idBook})}" class="btn btn-sm  me-2 button-52">[[#{book.list.edit}]]</a>
+                                <a th:href="@{/books/listCopyBooks/{idBook}(idBook=${book.idBook})}" class="btn btn-sm  me-2 button-52">CopyBooks</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

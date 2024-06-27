@@ -63,36 +63,38 @@
             </div>
         </div>
         
-        <div class="table-container">
+        <div class="card p-4">
+            <div class="table-container">
 
-            <div th:if="${error != null}" class="alert alert-danger">
-                <p th:text="${error}"></p>
+                <div th:if="${error != null}" class="alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+                <div th:if="${Information != null}" class="alert alert-info">
+                    <p th:text="${Information}"></p>
+                </div>
+                
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">CopyBook ID</th>
+                            <th scope="col">Book Title</th>
+                            <th scope="col">Loaning Date</th>
+                            <th scope="col">Expected Return Date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="loan : ${activeLoanings}">
+                            <td th:text="${loan.copyBook.idCopyBook}"></td>
+                            <td th:text="${loan.copyBook.book.title}"></td>
+                            <td th:text="${loan.loaningDate}"></td>
+                            <td th:text="${loan.expectedReturnDate}"></td>
+                            <td><a th:href="@{/returnLoanings/return/{idLoaning}/{idmember}(idLoaning=${loan.idLoaning}, idmember=${member.idMember})}"><button class="btn btn-action">Return</button></a></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
             </div>
-            <div th:if="${Information != null}" class="alert alert-info">
-                <p th:text="${Information}"></p>
-            </div>
-            
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">CopyBook ID</th>
-                        <th scope="col">Book Title</th>
-                        <th scope="col">Loaning Date</th>
-                        <th scope="col">Expected Return Date</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="loan : ${activeLoanings}">
-                        <td th:text="${loan.copyBook.idCopyBook}"></td>
-                        <td th:text="${loan.copyBook.book.title}"></td>
-                        <td th:text="${loan.loaningDate}"></td>
-                        <td th:text="${loan.expectedReturnDate}"></td>
-                        <td><a th:href="@{/returnLoanings/return/{idLoaning}/{idmember}(idLoaning=${loan.idLoaning}, idmember=${member.idMember})}"><button class="btn btn-action">Return</button></a></td>
-                    </tr>
-                    
-                </tbody>
-            </table>
         </div>
     </div>
     <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
