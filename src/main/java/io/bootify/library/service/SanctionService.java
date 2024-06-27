@@ -82,14 +82,14 @@ public class SanctionService {
 
         Sanction sanction = sanctionRepository.findActiveSanctionByMemberId(idMember);
         if(sanction != null){
-            throw new RuntimeException("This member has active sanction till " + sanction.getDateEnd() + " and can't loan books.");
+            throw new RuntimeException("Ce membre est sanctionné(e) jusqu'au " + sanction.getDateEnd() + " .");
         }
     }
 
     public String sanctionStatus(int idMember){
         Sanction sanction = sanctionRepository.findActiveSanctionByMemberId(idMember);
         if(sanction != null){
-            return new String("This member has active sanction till " + sanction.getDateEnd() + " and can't loan books.");
+            return new String("Ce membre est sanctionné(e) jusqu'au " + sanction.getDateEnd() + " .");
         }else{
             return "N/A";
         }

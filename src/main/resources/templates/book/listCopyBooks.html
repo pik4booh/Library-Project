@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard}">
+      layout:decorate="~{dashboard}">
 <head>
     <title>[[#{copyBook.list.headline}]]</title>
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
@@ -26,42 +26,12 @@
             color: white;
         }
 
-        .table-container {
-            background-color: #040405;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .table1 {
+        .card-book {
             background-color: #040405;
             color: white;
-            width: 1200px;
-            border-collapse: separate;
-            border-spacing: 0 10px; /* Adds space between rows */
-        }
-
-        .table1 th, .table1 td {
-            padding: 15px;
-            border: 1px solid white;
-        }
-
-        .table1 th {
-            text-align: left;
-        }
-
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.3rem 0.5rem;
-            border-radius: 0.2rem;
-        }
-
-        .badge.bg-success {
-            background-color: #28a745;
-        }
-
-        .badge.bg-danger {
-            background-color: #dc3545;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
         .btn-primary {
@@ -73,80 +43,85 @@
             background-color: #495057;
         }
 
-        .card-book {
+        .card-copybook {
             background-color: #040405;
             color: white;
+            border: 2px solid white;
             border-radius: 10px;
             padding: 20px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .card-copybook img {
+            width: 100%;
+            height: auto;
+            max-width: 100px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .status-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div layout:fragment="content" class="container">
-        <div th:if="${error != null}" class="alert alert-info">
-            <p th:text="${error}"></p>
-        </div>
+<div layout:fragment="content" class="container">
+    <div th:if="${error != null}" class="alert alert-info">
+        <p th:text="${error}"></p>
+    </div>
 
+    <div class="row">
+        <!-- Card for Book -->
+        <div class="col-md-4 mb-4">
+            <div class="card card-book">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'✨ '+${book.title}"></h5>
+                    <h6 class="card-text" th:text="${book.author}"></h6>
+                    <br>
+                    <p class="card-text" th:text="${book.summary}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${copyBooks.empty}">[[#{copyBook.list.empty}]]</div>
+    <div th:if="${!copyBooks.empty}" class="section">
+        <div class="d-flex flex-wrap mb-4">
+            <h1 class="flex-grow-1">[[#{copyBook.list.headline}]]</h1>
+            <div>
+                <a th:href="@{/copyBooks/add/{idBook}(idBook=${bookValue})}" class="btn btn-primary ms-2">[[#{copyBook.list.createNew}]]</a>
+            </div>
+        </div>
         <div class="row">
-            <!-- Card for Book -->
-            <div class="col-md-4 mb-4">
-                <div class="card card-book">
+            <div th:each="copyBookData : ${copyBooks}" class="col-md-4 mb-4">
+                <div class="card card-copybook">
+                    <div th:if="${copyBookData[7] == 1}" class="status-icon">✅</div>
+                    <div th:if="${copyBookData[7] == 0}" class="status-icon">❌</div>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="'✨ '+${book.title}"></h5>
-                        <h6 class="card-text" th:text="${book.author}"></h6>
-                        <br>
-                        <p class="card-text" th:text="${book.summary}"></p>
+                        <h5 class="card-title" th:text="'ID: ' + ${copyBookData[0]}"></h5>
+                        <img th:src="@{'/images/upload/' + ${copyBookData[1]}}"
+                             alt="Cover Image"
+                             class="img-fluid mb-3"/>
+                        <p class="card-text" th:text="'Date: ' + ${copyBookData[2]}"></p>
+                        <p class="card-text" th:text="'ISBN: ' + ${copyBookData[3]}"></p>
+                        <p class="card-text" th:text="'Language: ' + ${copyBookData[4]}"></p>
+                        <p class="card-text" th:text="'Pages: ' + ${copyBookData[5]}"></p>
+                        <div th:if="${copyBookData[7] == 1}">
+                            <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBookData[0]})}" class="btn btn-sm btn-secondary">Emprunter</a>
+                        </div>
+                        <div th:if="${copyBookData[7] == 0}">
+                            <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBookData[0]})}" class="btn btn-sm btn-secondary" disabled>Emprunter</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div th:if="${copyBooks.empty}">[[#{copyBook.list.empty}]]</div>
-        <div th:if="${!copyBooks.empty}" class="table-container">
-            <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{copyBook.list.headline}]]</h1>
-                <div>
-                    <a th:href="@{/copyBooks/add/{idBook}(idBook=${bookValue})}" class="btn btn-primary ms-2">[[#{copyBook.list.createNew}]]</a>
-                </div>
-            </div>
-            <table class="table1">
-                <thead>
-                    <tr>
-                        <th scope="col">[[#{copyBook.idCopyBook.label}]]</th>
-                        <th scope="col">[[#{copyBook.cover.label}]]</th>
-                        <th scope="col">[[#{copyBook.editDate.label}]]</th>
-                        <th scope="col">[[#{copyBook.isbn.label}]]</th>
-                        <th scope="col">[[#{copyBook.language.label}]]</th>
-                        <th scope="col">[[#{copyBook.pageNumber.label}]]</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="copyBookData : ${copyBooks}">
-                        <td th:text="${copyBookData[0]}"></td>
-                        <td>
-                            <img th:src="@{'/images/upload/' + ${copyBookData[1]}}"
-                                alt="Cover Image"
-                                style="max-width: 100px; max-height: 100px;"/>
-                        </td>
-                        <td th:text="${copyBookData[2]}"></td>
-                        <td th:text="${copyBookData[3]}"></td>
-                        <td th:text="${copyBookData[4]}"></td>
-                        <td th:text="${copyBookData[5]}"></td>
-                        <td>
-                            <span th:if="${copyBookData[7] == 1}">✅</span>
-                            <span th:if="${copyBookData[7] == 0}">❌</span>
-                        </td>
-                        <td>
-                            <span th:if="${copyBookData[7] == 1}">
-                                <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBookData[0]})}" class="btn btn-sm btn-secondary">Loan</a>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
+</div>
 </body>
 </html>

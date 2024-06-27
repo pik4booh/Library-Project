@@ -81,21 +81,7 @@
 </head>
 <body>
     <div layout:fragment="content" class="container">
-        <div class="member-details section">
-            <div class="page-title">
-                <h2 th:text="'Informations sur '+${member.name}"></h2>
-            </div>
-            <div class="card bg-dark text-white">
-                <div class="card-body">
-                    <h5>Member Details</h5>
-                    <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
-                    <p><strong>Address:</strong> <span th:text="${member.address}"></span></p>
-                    <p><strong>Registered Date:</strong> <span th:text="${member.dateRegister}"></span></p>
-                    <p><strong>Member Type:</strong> <span th:text="${member.typeMemberName}"></span></p>
-                    <p><strong>Sanction Status:</strong> <span th:text="${sanction_status}" th:classappend="${sanction_status != 'N/A'} ? 'text-danger' : ''"></span></p>
-                </div>
-            </div>
-        </div>
+        
         <div th:if="${error != null}" class="alert alert-danger">
             <p th:text="${error}"></p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -104,8 +90,15 @@
             <p th:text="${Information}"></p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <div th:if="${sanction_status != 'N/A'}" class="section bg-danger">
+            <p><strong>Sanction:</strong> <span th:text="${sanction_status}" th:classappend="${sanction_status != 'N/A'} ? 'text-danger' : ''"></span></p>
+        </div>
         
         <div class="table-container section">
+            <div class="page-title">
+                <h2 th:text="'📄 Livres empruntés par '+${member.name}"></h2>
+            </div>
             <table class="table1 table-hover">
                 <thead>
                     <tr>

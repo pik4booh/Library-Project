@@ -68,22 +68,15 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-text" th:text="${book.title}"></p>
+                        <h5 class="card-title" th:text="'✨ '+${book.title}"></h5>
                         <p class="card-text" th:text="${book.author}"></p>
                         <br>
                         <p class="card-text" th:text="${book.summary}"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
                         <p class="card-text" th:text="'CopyBook Number = '+${copyBook.idCopyBook}"></p>
-                        <p class="card-text" th:text="'ISBN = '+${copyBook.isbn}"></p>
-                        <p class="card-text" th:text="'Edition Date = '+${copyBook.editDate}"></p>
                     </div>
                 </div>
             </div>
+           
         </div>
         <div th:if="${error != null}" class="alert alert-danger">
             <p th:text="${error}"></p>
@@ -91,18 +84,21 @@
         </div>
         <div class="form-section">
             <form th:action="@{/loanings/create}" method="post" th:object="${loaning}">
+                <div class="page-title">
+                    <h2>↗️ Emprunter ce livre</h2>
+                </div>
                 <input type="hidden" th:name="copyBook" th:value="${copyBook.idCopyBook}" />
                 <div class="row mt-4">
                         <div class="mb-3">
-                            <label for="memberId" class="form-label">Member Identification</label>
+                            <label for="memberId" class="form-label">Identifiant</label>
                             <input type="text" class="form-control" id="memberId" th:field="*{member}" placeholder="Enter Member ID" required>
                         </div>
                         <div class="mb-3">
-                            <label for="loanDate" class="form-label">Loaning Date</label>
+                            <label for="loanDate" class="form-label">Date d'emprunt</label>
                             <input type="datetime-local" class="form-control" id="loanDate" th:field="*{loaningDate}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="loanType" class="form-label">Loan Type</label>
+                            <label for="loanType" class="form-label">Type d'emprunt</label>
                             <div th:each="loaningType : ${loaningTypes}" class="form-check">
                                 <input class="form-check-input" type="radio" name="typeLoaning" th:id="${loaningType.name}" th:value="${loaningType.idTypeLoaning}" checked>
                                 <label class="form-check-label" th:for="${loaningType.name}" th:text="${loaningType.name}"></label>
@@ -111,7 +107,7 @@
                             <input type="hidden" th:field="*{idLoaning}">
                         </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Valider</button>
             </form>
         </div>
     </div>

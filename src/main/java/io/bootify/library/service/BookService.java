@@ -131,7 +131,7 @@ public class BookService {
     public List<Object[]> getNMostBorrowedBooks(int n) {
         long bookCount = bookRepository.count();
         if (n > bookCount) {
-            throw new IllegalArgumentException("n is higher than the total number of books in the database");
+            throw new IllegalArgumentException("n est supérieur au nombre de livres dans la base de données");
         }
 
         List<Object[]> results = loaningRepository.findMostBorrowedBooks(n);

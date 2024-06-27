@@ -70,10 +70,9 @@
 </head>
 <body>
     <div layout:fragment="content" class="container">
-        <div style="height:50px"></div>
         <div class="section">
             <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{member.list.headline}]]</h1>
+                <h1 class="flex-grow-1">👤 [[#{member.list.headline}]]</h1>
                 <div>
                     <a th:href="@{/members/add}" class="btn btn-primary ms-2">[[#{member.list.createNew}]]</a>
                 </div>
@@ -86,7 +85,6 @@
                             <th scope="col">[[#{member.idMember.label}]]</th>
                             <th scope="col">[[#{member.name.label}]]</th>
                             <th scope="col">[[#{member.birth.label}]]</th>
-                            <th scope="col">[[#{member.identifiant.label}]]</th>
                             <th scope="col">[[#{member.address.label}]]</th>
                             <th scope="col">[[#{member.dateRegister.label}]]</th>
                             <th scope="col">[[#{member.typeMember.label}]]</th>
@@ -96,9 +94,8 @@
                     <tbody>
                         <tr th:each="member : ${members}">
                             <td>[[${member.idMember}]]</td>
-                            <td><a th:href="@{/members/copyBooks/{idMember}(idMember=${member.idMember})}">[[${member.name}]]</a></td>
+                            <td><a th:href="@{/members/copyBooks/{idMember}(idMember=${member.idMember})}"><span class="badge bg-info">[[${member.name}]]</span></a></td>
                             <td>[[${member.birth}]]</td>
-                            <td>[[${member.identifiant}]]</td>
                             <td>[[${member.address}]]</td>
                             <td>[[${member.dateRegister}]]</td>
                             <td>[[${member.typeMemberName}]]</td>

@@ -95,9 +95,9 @@ public class ReturnLoaningController {
         try {
             int sanctionStatus = returnLoaningService.returnLoan(idLoaning);
             if (sanctionStatus == 1){
-                redirectAttributes.addFlashAttribute("Information", "Sanction has been applied to the member due to late return of the book. And the book has been returned successfully");
+                redirectAttributes.addFlashAttribute("Information", "Ce membre a été sanctionné(e) du au retard du retour de l'emprunt");
             }else{
-                redirectAttributes.addFlashAttribute("Information", "Book has been returned successfully");
+                redirectAttributes.addFlashAttribute("Information", "Retour du livre avec succès");
             }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());

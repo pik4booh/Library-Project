@@ -103,7 +103,6 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div style="height: 50px;"></div>
     <div th:if="${error != null}" class="alert alert-danger">
         <p th:text="${error}"></p>
     </div>
@@ -119,7 +118,7 @@
                 <div th:each="book : ${mostBorrowedBooks}" class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${book[1]}">Titre du livre</h5>
+                            <h5 class="card-title" th:text="'✨ '+${book[1]}">Titre du livre</h5>
                             <h6 class="card-text" th:text="${book[2]}">Auteur du livre</h6>
                             <br>
                             <p class="card-text" th:text="${book[3]}">Résumé du livre</p>

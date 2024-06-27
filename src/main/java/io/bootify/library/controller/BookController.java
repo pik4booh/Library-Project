@@ -109,7 +109,7 @@ public class BookController {
 
         if(title == null && author == null && releaseDate1 == null && releaseDate2 == null && categories == null)
         {
-            redirectAttributes.addFlashAttribute("info", "Ajouter au moins une critère");
+            redirectAttributes.addFlashAttribute("info", "Ajouter au moins un critère");
             return "redirect:/books/listSearch";
         }
 
@@ -234,7 +234,7 @@ public class BookController {
                 }
             }
 
-            redirectAttributes.addFlashAttribute("success", "book created successfully");
+            redirectAttributes.addFlashAttribute("success", "Livre créé avec succès");
             return "redirect:/books/add";
 
         } catch (Exception e) {

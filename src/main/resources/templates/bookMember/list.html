@@ -74,7 +74,7 @@
         <div th:if="${bookMembers.empty}" class="section">[[#{bookMember.list.empty}]]</div>
         <div th:if="${!bookMembers.empty}" class="section table-container">
             <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{bookMember.list.headline}]]</h1>
+                <h1 class="flex-grow-1">🔐 [[#{bookMember.list.headline}]]</h1>
                 <div>
                     <a th:href="@{/bookMembers/add}" class="btn btn-primary ms-2">[[#{bookMember.list.createNew}]]</a>
                 </div>

@@ -100,7 +100,7 @@ public class LoaningService {
     public int createLoaning(LoaningDTO loaningDTO) throws Exception {
       
             Optional<Member> optionalMember  = memberRepository.findById(loaningDTO.getMember());
-            Member member = optionalMember.orElseThrow(() -> new NotFoundException("Member not found"));
+            Member member = optionalMember.orElseThrow(() -> new NotFoundException("Membre non trouvé"));
             checkLoaningPermission(loaningDTO, member);
             int daysToAdd = member.getTypeMember().getNbLoaningDays();
             LocalDateTime expectedReturnDate =  loaningDTO.getLoaningDate().plusDays(daysToAdd);
@@ -115,7 +115,7 @@ public class LoaningService {
         //Get the member type of the actual member who made a request
         TypeMember typeMember = member.getTypeMember();
         //Get the copy book instance by id and throws exception if not found
-        CopyBook copyBook = copyBookRepository.findById(loaningDTO.getCopyBook()).orElseThrow(() -> new NotFoundException("CopyBook not found"));
+        CopyBook copyBook = copyBookRepository.findById(loaningDTO.getCopyBook()).orElseThrow(() -> new NotFoundException("Exemplaire non trouvé"));
         //Get book associated with the copy book to get the specific permission for this book
         Book book = copyBook.getBook();
 
@@ -123,11 +123,11 @@ public class LoaningService {
         BookMember bookMember = bookMemberRepository.findFirstByBookAndTypeMember(book, typeMember);
         if(bookMember == null)
         {
-            throw new Exception("This book has no permission setted for this type of member");
+            throw new Exception("Ce livre n'a pas de permission défini pour ce type de membre");
         }
         //Get the loaning type requested by the member
         TypeLoaning typeLoaning = loaningDTO.getTypeLoaning() == null ? null : typeLoaningRepository.findById(loaningDTO.getTypeLoaning())
-                .orElseThrow(() -> new NotFoundException("typeLoaning not found"));
+                .orElseThrow(() -> new NotFoundException("Type d'emprunt non trouvé"));
 
         //Check if the member has the permission to loan this book on the spot or take away
         if(typeLoaning.getName().contains("Spot"))
@@ -135,13 +135,13 @@ public class LoaningService {
             int bookSpotPermission = bookMember.getOnTheSpot();
             if(bookSpotPermission == 0)
             {
-                throw new Exception("On the spot permission is not allowed for this member for this book");
+                throw new Exception("Ce type de membre ne peut pas lire ce livre sur place");
             }
         }else{
             int bookPermission = bookMember.getTakeAway();
             if(bookPermission == 0)
             {
-                throw new Exception("Take away permission is not allowed for this member for this book");
+                throw new Exception("Ce type de membre ne peut pas emporter ce livre");
             }
         }
         System.out.println("Check permission successfull");
