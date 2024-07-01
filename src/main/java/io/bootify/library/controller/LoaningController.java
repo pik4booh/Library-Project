@@ -124,10 +124,6 @@ public class LoaningController {
     public String createLoan(@ModelAttribute LoaningDTO loaningDTO, RedirectAttributes redirectAttributes)
     {
 
-        //print all loaningDTO attributes
-        System.out.println("Member : " + loaningDTO.getMember());
-        System.out.println("Loan Type : " + loaningDTO.getTypeLoaning());
-        System.out.println("Copy Book : " + loaningDTO.getCopyBook());
         try {
             //check if user in the request has active sanction
             sanctionService.checkMemberSanction(loaningDTO.getMember());

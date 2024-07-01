@@ -115,7 +115,7 @@
                             <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBookData[0]})}" class="btn btn-sm btn-secondary">Emprunter</a>
                         </div>
                         <div th:if="${copyBookData[7] == 0}">
-                            <a th:href="@{/loanings/create-form/{idCopyBook}(idCopyBook=${copyBookData[0]})}" class="btn btn-sm btn-secondary" disabled>Emprunter</a>
+                            <a class="btn btn-sm btn-secondary" disabled>Emprunter</a>
                         </div>
                     </div>
                 </div>
