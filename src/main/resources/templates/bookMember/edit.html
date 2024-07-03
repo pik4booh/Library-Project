@@ -6,7 +6,7 @@
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
     <style>
         body {
-            background-color: #130deb;
+            background-color: #c6c6c6;
             color: white;
             margin: 0;
             padding: 0;
@@ -18,21 +18,21 @@
         }
 
         .section {
-            background-color: #040405;
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            color: white;
+            color: black;
         }
 
         .form-control {
-            background-color: #040405; /* Black input background */
-            color: white;
+            background-color: white; /* Black input background */
+            color: black;
             border-color: #495057;
         }
 
         .form-control:focus {
-            border-color: #495057;
+            border-color: white;
             box-shadow: none;
         }
 
@@ -68,7 +68,7 @@
             <div th:replace="~{fragments/forms::globalErrors('bookMember')}" />
             <form th:action="${requestUri}" method="post" style="background-color: #040405;">
                 <!-- Add a black div for the form section -->
-                <div class="bg-dark text-white p-4 rounded">
+                <div class="bg-white text-black p-4 ">
                     <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='idBookMember', disabled=true, type='number')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='onTheSpot', required=true, type='number')}" />
                     <div th:replace="~{fragments/forms::inputRow(object='bookMember', field='takeAway', required=true, type='number')}" />
