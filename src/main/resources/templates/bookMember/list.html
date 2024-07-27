@@ -57,7 +57,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #495057;
+            background-color: #7a59f1;
         }
 
         .btn-secondary {
@@ -75,7 +75,7 @@
         <div th:if="${bookMembers.empty}" class="section">[[#{bookMember.list.empty}]]</div>
         <div th:if="${!bookMembers.empty}" class="section table-container">
             <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">🔐 [[#{bookMember.list.headline}]]</h1>
+                <h1 class="flex-grow-1"> [[#{bookMember.list.headline}]]</h1>
                 <div>
                     <a th:href="@{/bookMembers/add}" class="btn btn-primary ms-2">[[#{bookMember.list.createNew}]]</a>
                 </div>
@@ -97,12 +97,32 @@
                         <td>[[${bookMember.book.getTitle()}]]</td>
                         <td>[[${bookMember.typeMember.getName()}]]</td>
                         <td>
-                            <span th:if="${bookMember.onTheSpot == 1}">✅</span>
-                            <span th:if="${bookMember.onTheSpot == 0}">❌</span>
+                            <span th:if="${bookMember.onTheSpot == 1}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="3" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="8" stroke="green" stroke-width="2" fill="none" />
+                                    <path d="M8 12l3 3l6-6" stroke="green" stroke-width="2" fill="none" />
+                                </svg>
+                            </span>
+                            <span th:if="${bookMember.onTheSpot == 0}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="red" stroke-width="3" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="8" stroke="red" stroke-width="2" fill="none" />
+                                    <path d="M6 18l6-6l6 6M6 6l6 6l6-6" stroke="red" stroke-width="2" fill="none" />
+                                </svg>
+                            </span>
                         </td>
                         <td>
-                            <span th:if="${bookMember.takeAway == 1}">✅</span>
-                            <span th:if="${bookMember.takeAway == 0}">❌</span>
+                            <span th:if="${bookMember.takeAway == 1}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="3" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="8" stroke="green" stroke-width="2" fill="none" />
+                                    <path d="M8 12l3 3l6-6" stroke="green" stroke-width="2" fill="none" />
+                                </svg>
+                            </span>
+                            <span th:if="${bookMember.takeAway == 0}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="red" stroke-width="3" style="margin-right: 8px;">
+                                    <circle cx="12" cy="12" r="8" stroke="red" stroke-width="2" fill="none" />
+                                    <path d="M6 18l6-6l6 6M6 6l6 6l6-6" stroke="red" stroke-width="2" fill="none" />
+                                </svg>
+                            </span>
                         </td>
                         <td>
                             <div class="float-end text-nowrap">

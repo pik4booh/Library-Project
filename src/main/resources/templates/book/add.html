@@ -6,7 +6,7 @@
     <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet">
     <style>
         body {
-            background-color: #130deb;
+            background-color: #c6c6c6;
             color: white;
             margin: 0;
             padding: 0;
@@ -14,14 +14,16 @@
         }
 
         .form-container {
-            background-color: #040405;
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
+            color: black;
         }
 
         .form-control {
-            background-color: #040405; /* Couleur de fond pour les inputs */
-            color: white; /* Couleur de texte pour les inputs */
+            background-color: white; /* Couleur de fond pour les inputs */
+            color: black; /* Couleur de texte pour les inputs */
+            border: 1px solid black; /* Bordure des inputs */
         }
 
         .form-label, .form-check-label {
@@ -29,12 +31,12 @@
         }
 
         .btn-primary {
-            background-color: #343a40;
+            background-color: #60ff80;
             border: none;
         }
 
         .btn-primary:hover {
-            background-color: #495057;
+            background-color: #33bc4f;
         }
 
         .form-check-input {
@@ -57,7 +59,7 @@
     <div th:replace="~{fragments/forms::globalErrors('book')}" />
     <div class="form-container">
         <div class="d-flex flex-wrap mb-4">
-            <h1 class="flex-grow-1">📖 [[#{book.add.headline}]]</h1>
+            <h1 class="flex-grow-1"> [[#{book.add.headline}]]</h1>
             <div>
                 <a th:href="@{/books}" class="btn btn-secondary">[[#{book.add.back}]]</a>
             </div>

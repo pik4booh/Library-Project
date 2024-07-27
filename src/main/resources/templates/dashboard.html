@@ -43,7 +43,7 @@
         }
 
         .sidebar a {
-            color: #040405;
+            color: white;
             text-decoration: none;
             padding: 10px 15px;
             display: flex;
@@ -71,7 +71,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"> <i class="bi bi-book"></i>📖 Bibliothèque Municipale</a>
+            <a class="navbar-brand" href="#"> <i class="bi bi-book"></i>📖 Bibliothèque</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -91,18 +91,38 @@
     <div class="sidebar d-flex flex-column">
         <h2 class="text-white text-center">Menu</h2>
         <a href="/books">
-            🏠 Accueil
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="2" style="margin-right: 8px;">
+                <path d="M3 12l2-2 4 4 8-8 2 2" />
+                <path d="M2 9l6 6 8-8" />
+                <path d="M2 12v6a2 2 0 002 2h14a2 2 0 002-2v-6" />
+            </svg>
+            Accueil
         </a>
         <a href="/members">
-            👥 Tous les membres
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="2" style="margin-right: 8px;">
+                <circle cx="9" cy="7" r="4" />
+                <circle cx="15" cy="7" r="4" />
+                <path d="M9 11c-4.418 0-8 1.79-8 4v4h16v-4c0-2.21-3.582-4-8-4zM15 11c4.418 0 8 1.79 8 4v4h-16v-4c0-2.21 3.582-4 8-4z" />
+            </svg>
+            Liste des membres
         </a>
         <a href="/books/listSearch">
-            📚 Tous les livres
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="2" style="margin-right: 8px;">
+                <path d="M3 18V5a2 2 0 012-2h7v16H5a2 2 0 01-2-2z" />
+                <path d="M21 18V5a2 2 0 00-2-2h-7v16h7a2 2 0 002-2z" />
+            </svg>
+            
+            Liste des livres
         </a>
         <a href="/bookMembers">
-            🔐 Voir permission
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF" stroke-width="2" style="margin-right: 8px;">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M10 16l4-4-4-4" />
+            </svg>
+            Voir permission
         </a>
     </div>
+    
 
     <!-- Main Content -->
     <div class="main-content">

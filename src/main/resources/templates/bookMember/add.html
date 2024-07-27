@@ -53,12 +53,12 @@
         }
 
         .btn-primary {
-            background-color: #343a40;
+            background-color: #60ff80;
             border: none;
         }
 
         .btn-primary:hover {
-            background-color: #495057;
+            background-color: #33bc4f;
         }
 
     </style>
@@ -73,7 +73,7 @@
         <div th:replace="~{fragments/forms::globalErrors('bookMember')}" />
         <div class="form-container">
             <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">🔐 [[#{bookMember.add.headline}]]</h1>
+                <h1 class="flex-grow-1"> [[#{bookMember.add.headline}]]</h1>
                 <div>
                     <a th:href="@{/bookMembers}" class="btn btn-secondary">[[#{bookMember.add.back}]]</a>
                 </div>
